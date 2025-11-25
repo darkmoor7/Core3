@@ -19,7 +19,7 @@ thune_herd_leader = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ thune_herd_leader = Creature:new {
 
 	templates = {"object/mobile/thune_herd_leader.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/thune_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

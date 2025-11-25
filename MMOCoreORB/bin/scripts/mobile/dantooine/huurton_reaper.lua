@@ -19,7 +19,7 @@ huurton_reaper = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 25,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER + STALKER,
@@ -28,6 +28,7 @@ huurton_reaper = Creature:new {
 
 	templates = {"object/mobile/huurton_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/huurton_hue.iff",
 	scale = 1.4,
 	lootGroups = {},
 

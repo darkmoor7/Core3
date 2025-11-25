@@ -19,7 +19,7 @@ grassland_voritor_tracker = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 40,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ grassland_voritor_tracker = Creature:new {
 
 	templates = {"object/mobile/grassland_voritor_tracker.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/voritor_lizard_hue.iff",
 	scale = 1.1,
 	lootGroups = {
 		{

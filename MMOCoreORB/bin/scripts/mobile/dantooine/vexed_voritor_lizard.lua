@@ -19,7 +19,7 @@ vexed_voritor_lizard = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 50,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ vexed_voritor_lizard = Creature:new {
 
 	templates = {"object/mobile/vexed_voritor_lizard.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/voritor_lizard_hue.iff",
 	scale = 1.15,
 	lootGroups = {
 		{

@@ -19,7 +19,7 @@ bol_pack_runner = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 180,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ bol_pack_runner = Creature:new {
 
 	templates = {"object/mobile/bol_pack_runner.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/bol_hue.iff",
 	scale = 0.95,
 	lootGroups = {},
 

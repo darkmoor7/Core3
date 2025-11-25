@@ -19,7 +19,7 @@ mammoth_thune = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ mammoth_thune = Creature:new {
 
 	templates = {"object/mobile/thune_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/thune_hue.iff",
 	scale = 1.4,
 	lootGroups = {},
 

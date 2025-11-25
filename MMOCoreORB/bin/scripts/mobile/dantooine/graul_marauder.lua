@@ -19,7 +19,7 @@ graul_marauder = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 950,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 15,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ graul_marauder = Creature:new {
 
 	templates = {"object/mobile/graul_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/graul_hue.iff",
 	scale = 1.35,
 	lootGroups = {},
 
