@@ -19,7 +19,7 @@ deranged_wrix = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 25,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 6,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = NONE,
@@ -28,6 +28,7 @@ deranged_wrix = Creature:new {
 
 	templates = {"object/mobile/deranged_wrix.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/gurreck_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 

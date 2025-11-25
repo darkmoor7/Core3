@@ -19,7 +19,7 @@ corellian_butterfly_monarch = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 2,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ corellian_butterfly_monarch = Creature:new {
 
 	templates = {"object/mobile/corellian_butterfly_monarch.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/corellian_butterfly_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 

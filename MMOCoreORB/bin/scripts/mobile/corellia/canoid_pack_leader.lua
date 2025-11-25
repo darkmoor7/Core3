@@ -19,7 +19,7 @@ canoid_pack_leader = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 30,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 4,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ canoid_pack_leader = Creature:new {
 
 	templates = {"object/mobile/canoid_pack_leader.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/boar_wolf_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 

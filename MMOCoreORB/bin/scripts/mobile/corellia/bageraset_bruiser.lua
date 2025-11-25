@@ -19,7 +19,7 @@ bageraset_bruiser = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 80,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 2,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ bageraset_bruiser = Creature:new {
 
 	templates = {"object/mobile/bageraset_hue.iff"},
 	scale = 1.2,
+	controlDeviceTemplate = "object/intangible/pet/bageraset_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

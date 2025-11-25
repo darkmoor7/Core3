@@ -19,7 +19,7 @@ gronda_patriarch = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 180,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 15,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ gronda_patriarch = Creature:new {
 
 	templates = {"object/mobile/gronda_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/gronda_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 
