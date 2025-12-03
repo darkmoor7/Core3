@@ -19,7 +19,7 @@ ancient_bull_rancor = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 950,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.1,
 	ferocity = 20,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ ancient_bull_rancor = Creature:new {
 
 	templates = {"object/mobile/bull_rancor.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/rancor_hue.iff",
 	scale = 1.25,
 	lootGroups = {
 		{

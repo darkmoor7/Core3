@@ -19,7 +19,7 @@ angry_baz_nitch_avenger = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 2,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ angry_baz_nitch_avenger = Creature:new {
 
 	templates = {"object/mobile/baz_nitch_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/nuna_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 

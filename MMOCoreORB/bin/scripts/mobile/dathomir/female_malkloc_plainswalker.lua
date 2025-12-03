@@ -20,7 +20,7 @@ female_malkloc_plainswalker = Creature:new {
 	boneAmount = 1000,
 	milkType = "milk_wild",
 	milk = 600,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ female_malkloc_plainswalker = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/malkloc_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/malkloc_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

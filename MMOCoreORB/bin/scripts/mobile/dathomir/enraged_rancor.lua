@@ -19,7 +19,7 @@ enraged_rancor = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 778,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 12,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ enraged_rancor = Creature:new {
 
 	templates = {"object/mobile/rancor_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/rancor_hue.iff",
 	scale = 1.15,
 	lootGroups = {
 		{

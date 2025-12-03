@@ -19,7 +19,7 @@ cavern_spider_hunter = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 5,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER + STALKER,
@@ -28,6 +28,7 @@ cavern_spider_hunter = Creature:new {
 
 	templates = {"object/mobile/gaping_spider_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/gaping_spider_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 
