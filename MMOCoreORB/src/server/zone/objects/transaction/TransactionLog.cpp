@@ -353,9 +353,36 @@ void TransactionLog::addContextFromLua(lua_State* L) {
 	});
 }
 
-const String TransactionLog::getNewTrxID() {
+const String TransactionLog::getNewTrxID(uint8 source) {
+	// Crockford Base32 alphabet (lowercase) - excludes i, l, o, u to avoid ambiguity
+	static const char* crockford32 = "0123456789abcdefghjkmnpqrstvwxyz";
+
 	static AtomicInteger incr;
-	return String::hexvalueOf((uint64)((System::getMikroTime() << 8)) | (incr.increment() & 0xFF));
+
+	// Cache galaxy ID on first call - it never changes at runtime
+	static uint16 galaxyId = [] {
+		auto server = ServerCore::getZoneServer();
+		return server ? (server->getGalaxyID() & 0x3FF) : 0;
+	}();
+
+	// Pack: [ms:42][counter:10][source:2][galaxy:10] = 64 bits
+	// - 42-bit ms timestamp: ~139 years from epoch
+	// - 10-bit counter: 1024 IDs per millisecond per source
+	// - 2-bit source: 0=TransactionLog, 1=SWGRealmsAPI, 2=ig-88a, 3=reserved
+	// - 10-bit galaxy: up to 1024 galaxies
+	// Sorts lexicographically by time, then counter, then source, then galaxy
+	uint64 ms = System::getMiliTime() & 0x3FFFFFFFFFFULL;
+	uint64 id = (ms << 22) | ((incr.increment() & 0x3FF) << 12) | ((source & 0x3) << 10) | galaxyId;
+
+	// Encode as 13-char lowercase Crockford Base32
+	char buf[14];
+	buf[13] = '\0';
+	for (int i = 12; i >= 0; --i) {
+		buf[i] = crockford32[id % 32];
+		id /= 32;
+	}
+
+	return String(buf);
 }
 
 void TransactionLog::catchAndLog(const char* functioName, Function<void()> function) {

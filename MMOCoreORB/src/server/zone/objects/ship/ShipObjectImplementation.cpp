@@ -88,38 +88,35 @@ void ShipObjectImplementation::initializeTransientMembers() {
 void ShipObjectImplementation::notifyLoadFromDatabase() {
 	TangibleObjectImplementation::notifyLoadFromDatabase();
 
+	// info(true) << "ShipObjectImplementation::notifyLoadFromDatabase() called -- Ship: " << getDisplayedName();
+
+	auto zoneServer = getZoneServer();
+
 	// This ship is launched when loading from DB. Auto store it
-	if (!isShipAiAgent() && isShipLaunched()) {
-		auto zoneServer = getZoneServer();
-
-		if (zoneServer == nullptr) {
-			return;
-		}
-
+	if (isShipLaunched() && zoneServer != nullptr) {
 		auto shipDevice = cast<ShipControlDevice*>(zoneServer->getObject(controlDeviceID).get());
 		auto owner = getOwner().get();
 
 		if (shipDevice != nullptr && owner != nullptr) {
-
 			auto launchZone = getSpaceLaunchZone();
 			auto launchLoc = getSpaceLaunchLocation();
 
+			// This should not be an empty string, but just in case it is, send them to Coronet
 			if (launchZone.isEmpty()) {
-				launchZone = "naboo";
-			}
-
-			if (launchLoc.getX() == 0 && launchLoc.getY() == 0) {
-				launchLoc.setX(-4868.f);
-				launchLoc.setY(4154.f);
-				launchLoc.setZ(6.0f);
+				launchZone = "corellia";
+				launchLoc.set(-66, 28, -4711);
 			}
 
 			StoreShipTask* storeTask = new StoreShipTask(owner, shipDevice, launchZone, launchLoc);
 
 			if (storeTask != nullptr) {
-				storeTask->schedule(2000);
+				// Schedule this task out, giving plenty of time for players to load in first
+				storeTask->schedule(30 * 1000);
 			}
 		}
+	} else {
+		// Make sure no players remain in any of the ships slots
+		removeAllPlayersFromShip();
 	}
 }
 
@@ -570,6 +567,8 @@ void ShipObjectImplementation::notifyInsert(TreeEntry* object) {
 			return;
 		}
 
+		Locker lock(&playersOnBoardMutex);
+
 		for (int i = 0; i < playersOnBoard.size(); ++i) {
 			auto shipMemberID = playersOnBoard.get(i);
 			auto shipMember = cast<CreatureObject*>(zoneServer->getObject(shipMemberID).get());
@@ -628,6 +627,8 @@ void ShipObjectImplementation::notifyDissapear(TreeEntry* object) {
 		if (zoneServer == nullptr) {
 			return;
 		}
+
+		Locker lock(&playersOnBoardMutex);
 
 		for (int i = 0; i < playersOnBoard.size(); ++i) {
 			auto shipMemberID = playersOnBoard.get(i);
@@ -702,9 +703,19 @@ void ShipObjectImplementation::notifyRemoveFromZone() {
 }
 
 void ShipObjectImplementation::updateZone(bool lightUpdate, bool sendPackets) {
-	updatePlayersInShip(lightUpdate, sendPackets);
-
 	SceneObjectImplementation::updateZone(lightUpdate, sendPackets);
+
+	Reference<ShipObject*> shipRef = asShipObject();
+
+	Core::getTaskManager()->executeTask([shipRef, lightUpdate, sendPackets] () {
+		if (shipRef == nullptr) {
+			return;
+		}
+
+		Locker locker(shipRef);
+
+		shipRef->updatePlayersInShip(lightUpdate, sendPackets);
+	}, "UpdatePlayersInShipLambda");
 
 #ifdef DEBUG_COV
 	if (isPlayerShip()) {
@@ -716,7 +727,7 @@ void ShipObjectImplementation::updateZone(bool lightUpdate, bool sendPackets) {
 }
 
 void ShipObjectImplementation::updatePlayersInShip(bool lightUpdate, bool sendPackets) {
-	if (getLocalZone() == nullptr) {
+	if (!isShipLaunched()) {
 		return;
 	}
 
@@ -727,6 +738,9 @@ void ShipObjectImplementation::updatePlayersInShip(bool lightUpdate, bool sendPa
 	}
 
 	const auto& worldPosition = getWorldPosition();
+	auto thisShip = asShipObject();
+
+	Locker lock(&playersOnBoardMutex);
 
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
@@ -736,15 +750,11 @@ void ShipObjectImplementation::updatePlayersInShip(bool lightUpdate, bool sendPa
 			continue;
 		}
 
-		Locker clock(shipMember, asShipObject());
+		Locker clock(shipMember, thisShip);
 
 		auto parent = shipMember->getParent().get();
 
-		if (parent == nullptr) {
-			continue;
-		}
-
-		if (parent == asShipObject()) {
+		if (parent != nullptr && parent == thisShip) {
 			shipMember->setPosition(worldPosition.getX(), worldPosition.getZ(), worldPosition.getY());
 		}
 
@@ -1595,62 +1605,14 @@ ShipObjectTransform* ShipObjectImplementation::getShipTransform() {
 }
 
 void ShipObjectImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
-	// Clear the players on board list
-	playersOnBoard.removeAll();
-
-	auto thisShip = asShipObject();
-
-	VectorMap<String, ManagedReference<SceneObject* > > slotted;
-	getSlottedObjects(slotted);
-
-	SortedVector<ManagedReference<SceneObject*>> players;
-
-	// Get the Launch location
-	auto launchZone = getSpaceLaunchZone();
-	auto launchLoc = getSpaceLaunchLocation();
-
-	// This should not be an empty string, but just in case it is, send them to Coronet
-	if (launchZone.isEmpty()) {
-		launchZone = "corellia";
-		launchLoc.set(-66, 28, -4711);
-	}
-
-	// Check slotted objects for players
-	for (int i = slotted.size() - 1; i >= 0 ; --i) {
-		auto object = slotted.get(i);
-
-		if (object == nullptr || !object->isPlayerCreature()) {
-			continue;
-		}
-
-		Locker clock(object, thisShip);
-
-		object->switchZone(launchZone, launchLoc.getX(), launchLoc.getZ(), launchLoc.getY(), 0, false, -1);
-
-		if (hasObjectInContainer(object->getObjectID())) {
-			removeObject(object, nullptr, false);
-		}
-	}
-
-	// Check container for players
-	for (int i = getContainerObjectsSize() - 1; i >= 0 ; --i) {
-		auto object = getContainerObject(i);
-
-		if (object == nullptr || !object->isPlayerCreature()) {
-			continue;
-		}
-
-		Locker clock(object, thisShip);
-
-		object->switchZone(launchZone, launchLoc.getX(), launchLoc.getZ(), launchLoc.getY(), 0, false, -1);
-
-		if (hasObjectInContainer(object->getObjectID())) {
-			removeObject(object, nullptr, false);
-		}
+	// Remove all of the players
+	if (!isPobShip()) {
+		removeAllPlayersFromShip();
 	}
 
 	// Remove and destroy all the components
 	auto playerOwner = owner.get();
+	auto thisShip = asShipObject();
 
 	for (uint32 slot = 0; slot <= Components::FIGHTERSLOTMAX; ++slot) {
 		auto component = components.get(slot);
@@ -1677,6 +1639,102 @@ void ShipObjectImplementation::destroyObjectFromDatabase(bool destroyContainedOb
 	TangibleObjectImplementation::destroyObjectFromDatabase(destroyContainedObjects);
 }
 
+void ShipObjectImplementation::removeAllPlayersFromShip() {
+	// info(true) << getDisplayedName() << " -- ShipObjectImplementation::removeAllPlayersFromShip()";
+
+	auto launchZone = getSpaceLaunchZone();
+	auto launchLoc = getSpaceLaunchLocation();
+
+	// This should not be an empty string, but just in case it is, send them to Coronet
+	if (launchZone.isEmpty()) {
+		launchZone = "corellia";
+		launchLoc.set(-66, 28, -4711);
+	}
+
+	auto thisShip = asShipObject();
+	auto zoneServer = getZoneServer();
+
+	if (zoneServer != nullptr) {
+		Locker lock(&playersOnBoardMutex);
+
+		for (int i = playersOnBoard.size() - 1; i >= 0 ; --i) {
+			auto shipMemberID = playersOnBoard.get(i);
+			auto shipMember = cast<CreatureObject*>(zoneServer->getObject(shipMemberID).get());
+
+			if (shipMember == nullptr) {
+				continue;
+			}
+
+			Locker clock(shipMember, thisShip);
+
+			// Remove droid commands from the player object
+			auto ghost = shipMember->getPlayerObject();
+
+			if (ghost != nullptr) {
+				ghost->removeDroidCommands();
+			}
+
+			// Clear the Players Space States
+			shipMember->clearSpaceStates();
+
+			// Clear the Players Space Mission Objects
+			shipMember->removeAllSpaceMissionObjects(false);
+
+			// info(true) << "Removing ShipMember: " << shipMember->getDisplayedName();
+
+			shipMember->switchZone(launchZone, launchLoc.getX(), launchLoc.getZ(), launchLoc.getY(), 0, false, -1);
+		}
+
+		playersOnBoard.removeAll();
+	}
+
+	// Check Pilot Slot
+	auto pilot = getPilot();
+
+	if (pilot != nullptr) {
+		Locker pClock(pilot, thisShip);
+
+		// Remove droid commands from the player object
+		auto ghost = pilot->getPlayerObject();
+
+		if (ghost != nullptr) {
+			ghost->removeDroidCommands();
+		}
+
+		// Clear the Players Space States
+		pilot->clearSpaceStates();
+
+		// Clear the Players Space Mission Objects
+		pilot->removeAllSpaceMissionObjects(false);
+
+		// info(true) << "Removing Pilot: " << pilot->getDisplayedName();
+
+		pilot->switchZone(launchZone, launchLoc.getX(), launchLoc.getZ(), launchLoc.getY(), 0, false, -1);
+	}
+
+	// Check Gunner Slot
+	auto shipGunner = getShipGunner();
+
+	if (shipGunner != nullptr) {
+		Locker gClock(shipGunner, thisShip);
+
+		// Remove droid commands from the player object
+		auto ghost = shipGunner->getPlayerObject();
+
+		if (ghost != nullptr) {
+			ghost->removeDroidCommands();
+		}
+
+		// Clear the Players Space States
+		shipGunner->clearSpaceStates();
+
+		// Clear the Players Space Mission Objects
+		shipGunner->removeAllSpaceMissionObjects(false);
+
+		shipGunner->switchZone(launchZone, launchLoc.getX(), launchLoc.getZ(), launchLoc.getY(), 0, false, -1);
+	}
+}
+
 CreatureObject* ShipObjectImplementation::getPilot() {
 	auto chair = getPilotChair().get();
 
@@ -1687,6 +1745,10 @@ CreatureObject* ShipObjectImplementation::getPilot() {
 	return getSlottedObject("ship_pilot").castTo<CreatureObject*>();
 }
 
+CreatureObject* ShipObjectImplementation::getShipGunner() {
+	return getSlottedObject("ship_gunner1").castTo<CreatureObject*>();
+}
+
 CreatureObject* ShipObjectImplementation::getShipOperator() {
 	auto chair = getOperationsChair().get();
 
@@ -1694,7 +1756,7 @@ CreatureObject* ShipObjectImplementation::getShipOperator() {
 		return nullptr;
 	}
 
-	return chair->getSlottedObject("ship_operations_station").castTo<CreatureObject*>();
+	return chair->getSlottedObject("ship_operations_pob").castTo<CreatureObject*>();
 }
 
 CreatureObject* ShipObjectImplementation::getTurretOperatorTop() {
@@ -1949,6 +2011,8 @@ CreatureObject* ShipObjectImplementation::getPlayerOnBoard(int index) {
 		return nullptr;
 	}
 
+	Locker lock(&playersOnBoardMutex);
+
 	auto shipMemberID = playersOnBoard.get(index);
 	auto shipMember = cast<CreatureObject*>(zoneServer->getObject(shipMemberID).get());
 
@@ -1966,6 +2030,8 @@ void ShipObjectImplementation::addPlayerOnBoard(CreatureObject* player) {
 
 	uint64 playerID = player->getObjectID();
 
+	Locker lock(&playersOnBoardMutex);
+
 	if (playersOnBoard.contains(playerID)) {
 		return;
 	}
@@ -1980,6 +2046,8 @@ void ShipObjectImplementation::removePlayerOnBoard(CreatureObject* player) {
 
 	uint64 playerID = player->getObjectID();
 
+	Locker lock(&playersOnBoardMutex);
+
 	for (int i = playersOnBoard.size() - 1; i >= 0; i--) {
 		if (playersOnBoard.get(i) != playerID) {
 			continue;
@@ -1990,10 +2058,14 @@ void ShipObjectImplementation::removePlayerOnBoard(CreatureObject* player) {
 }
 
 void ShipObjectImplementation::clearPlayersOnBoard() {
+	Locker lock(&playersOnBoardMutex);
+
 	playersOnBoard.removeAll();
 }
 
 int ShipObjectImplementation::getTotalPlayersOnBoard() {
+	Locker lock(&playersOnBoardMutex);
+
 	return playersOnBoard.size();
 }
 
@@ -2007,6 +2079,8 @@ void ShipObjectImplementation::sendShipMembersMessage(const String& message) {
 	if (zoneServer == nullptr) {
 		return;
 	}
+
+	Locker lock(&playersOnBoardMutex);
 
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
@@ -2027,6 +2101,8 @@ void ShipObjectImplementation::sendShipMembersMusicMessage(const String& message
 		return;
 	}
 
+	Locker lock(&playersOnBoardMutex);
+
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
 		auto shipMember = cast<CreatureObject*>(zoneServer->getObject(shipMemberID).get());
@@ -2045,6 +2121,8 @@ void ShipObjectImplementation::sendMembersHyperspaceBeginMessage(const String& z
 	if (zoneServer == nullptr) {
 		return;
 	}
+
+	Locker lock(&playersOnBoardMutex);
 
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
@@ -2065,6 +2143,8 @@ void ShipObjectImplementation::sendMembersHyperspaceOrientMessage(const String& 
 	if (zoneServer == nullptr) {
 		return;
 	}
+
+	Locker lock(&playersOnBoardMutex);
 
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
@@ -2087,6 +2167,8 @@ void ShipObjectImplementation::sendMembersBaseMessage(BaseMessage* message, bool
 	}
 
 	auto selfObject = owner.get();
+
+	Locker lock(&playersOnBoardMutex);
 
 	for (int i = 0; i < playersOnBoard.size(); ++i) {
 		auto shipMemberID = playersOnBoard.get(i);
