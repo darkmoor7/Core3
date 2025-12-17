@@ -19,7 +19,7 @@ monstrous_brute = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 778,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.1,
 	ferocity = 12,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -27,6 +27,7 @@ monstrous_brute = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/rancor_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/rancor_hue.iff",
 	scale = 1.35,
 	lootGroups = {
 		{

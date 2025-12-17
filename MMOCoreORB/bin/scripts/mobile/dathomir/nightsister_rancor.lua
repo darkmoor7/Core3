@@ -19,7 +19,7 @@ nightsister_rancor = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 776,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 10,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER + STALKER,
@@ -28,6 +28,7 @@ nightsister_rancor = Creature:new {
 
 	templates = {"object/mobile/rancor_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/rancor_hue.iff",
 	scale = 1.05,
 	lootGroups = {
 		{

@@ -19,7 +19,7 @@ nocuous_kamurith = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 60,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 2,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ nocuous_kamurith = Creature:new {
 
 	templates = {"object/mobile/voritor_lizard_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/voritor_lizard_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 

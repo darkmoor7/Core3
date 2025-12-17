@@ -19,7 +19,7 @@ kamurith_snapper = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 50,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 2,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ kamurith_snapper = Creature:new {
 
 	templates = {"object/mobile/voritor_lizard_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/voritor_lizard_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 
