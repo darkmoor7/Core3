@@ -19,7 +19,7 @@ purbole_elder = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 11,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 7,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ purbole_elder = Creature:new {
 
 	templates = {"object/mobile/purbole_elder.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/purbole_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

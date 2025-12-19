@@ -18,7 +18,7 @@ reclusive_cavern_spider_queen = Creature:new {
 	hideAmount = 0,
 	boneType = "",
 	boneAmount = 0,
-	milk = 0,
+	milk = 0.15,
 	tamingChance = 0,
 	ferocity = 8,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
@@ -27,6 +27,7 @@ reclusive_cavern_spider_queen = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/gaping_spider_recluse.iff"},
+	controlDeviceTemplate = "object/intangible/pet/gaping_spider_hue.iff",
 	scale = 1.5,
 	lootGroups = {},
 
