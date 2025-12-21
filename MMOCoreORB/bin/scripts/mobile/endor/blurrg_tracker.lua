@@ -19,7 +19,7 @@ blurrg_tracker = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 35,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ blurrg_tracker = Creature:new {
 
 	templates = {"object/mobile/blurrg_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/blurrg_hue.iff",
 	scale = 0.95,
 	lootGroups = {},
 

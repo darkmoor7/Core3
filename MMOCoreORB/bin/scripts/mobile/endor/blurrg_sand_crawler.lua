@@ -19,7 +19,7 @@ blurrg_sand_crawler = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 35,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ blurrg_sand_crawler = Creature:new {
 
 	templates = {"object/mobile/blurrg_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/blurrg_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 

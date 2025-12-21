@@ -19,7 +19,7 @@ blooming_jax = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 25,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ blooming_jax = Creature:new {
 
 	templates = {"object/mobile/blooming_jax.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/bearded_jax_hue.iff",
 	scale = 1.3,
 	lootGroups = {},
 

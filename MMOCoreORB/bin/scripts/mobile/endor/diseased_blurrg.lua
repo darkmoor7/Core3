@@ -19,7 +19,7 @@ diseased_blurrg = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 75,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = NONE,
@@ -28,6 +28,7 @@ diseased_blurrg = Creature:new {
 
 	templates = {"object/mobile/blurrg_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/blurrg_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 

@@ -20,7 +20,7 @@ bordok_mare = Creature:new {
 	boneAmount = 125,
 	milkType = "milk_wild",
 	milk = 135,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -29,6 +29,7 @@ bordok_mare = Creature:new {
 
 	templates = {"object/mobile/bordok_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/bordok_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

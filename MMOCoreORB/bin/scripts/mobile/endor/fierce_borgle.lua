@@ -19,7 +19,7 @@ fierce_borgle = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 5,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ fierce_borgle = Creature:new {
 
 	templates = {"object/mobile/borgle_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/borgle_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

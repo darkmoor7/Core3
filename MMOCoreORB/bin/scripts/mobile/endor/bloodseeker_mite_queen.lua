@@ -19,7 +19,7 @@ bloodseeker_mite_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ bloodseeker_mite_queen = Creature:new {
 
 	templates = {"object/mobile/bloodseeker_mite_queen.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 

@@ -19,7 +19,7 @@ gorax = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.1,
 	ferocity = 20,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -27,6 +27,7 @@ gorax = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/gorax.iff"},
+	controlDeviceTemplate = "object/intangible/pet/pet_control.iff",
 	lootGroups = {
 	 {
 	        groups = {

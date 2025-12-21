@@ -19,7 +19,7 @@ blurrg_raptor = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 35,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.1,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER + STALKER,
@@ -28,6 +28,7 @@ blurrg_raptor = Creature:new {
 
 	templates = {"object/mobile/blurrg_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/blurrg_hue.iff",
 	scale = 1.35,
 	lootGroups = {},
 

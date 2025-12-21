@@ -19,7 +19,7 @@ bolle_bol_male = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 180,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ bolle_bol_male = Creature:new {
 
 	templates = {"object/mobile/bolle_bol_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/bolle_bol_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 

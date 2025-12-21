@@ -19,7 +19,7 @@ blood_frenzied_boar_wolf = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ blood_frenzied_boar_wolf = Creature:new {
 
 	templates = {"object/mobile/boar_wolf_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/boar_wolf_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 
