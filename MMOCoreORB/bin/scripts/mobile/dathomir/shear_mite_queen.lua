@@ -19,7 +19,7 @@ shear_mite_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 4,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ shear_mite_queen = Creature:new {
 
 	templates = {"object/mobile/shear_mite_queen.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/shear_mite_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 
