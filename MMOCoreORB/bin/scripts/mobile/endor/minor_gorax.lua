@@ -19,7 +19,7 @@ minor_gorax = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -27,6 +27,7 @@ minor_gorax = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/gorax.iff"},
+	controlDeviceTemplate = "object/intangible/pet/pet_control.iff",
 	scale = 0.75,
 	lootGroups = {
 	    {

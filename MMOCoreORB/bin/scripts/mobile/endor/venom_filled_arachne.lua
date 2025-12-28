@@ -19,7 +19,7 @@ venom_filled_arachne = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 4,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ venom_filled_arachne = Creature:new {
 
 	templates = {"object/mobile/angler_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/angler_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

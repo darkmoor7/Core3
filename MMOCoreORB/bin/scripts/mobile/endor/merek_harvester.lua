@@ -19,7 +19,7 @@ merek_harvester = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.1,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ merek_harvester = Creature:new {
 
 	templates = {"object/mobile/merek_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/merek_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 

@@ -19,7 +19,7 @@ shimmering_lantern_bird = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 46,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ shimmering_lantern_bird = Creature:new {
 
 	templates = {"object/mobile/lantern_bird_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/lantern_bird_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 
@@ -39,7 +40,7 @@ shimmering_lantern_bird = Creature:new {
 	
 	-- primaryAttacks and secondaryAttacks should be separate skill groups specific to the weapon type listed in primaryWeapon and secondaryWeapon
 	-- Use merge() to merge groups in creatureskills.lua together. If a weapon is set to "none", set the attacks variable to empty brackets
-	primaryAttacks = {},
+	primaryAttacks = { {"blindattack",""} },
 	secondaryAttacks = { }
 }
 

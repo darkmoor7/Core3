@@ -19,7 +19,7 @@ roba_pack_leader = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 15,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ roba_pack_leader = Creature:new {
 
 	templates = {"object/mobile/roba_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/roba_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

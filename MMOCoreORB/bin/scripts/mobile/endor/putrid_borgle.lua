@@ -19,7 +19,7 @@ putrid_borgle = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 5,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ putrid_borgle = Creature:new {
 
 	templates = {"object/mobile/borgle_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/borgle_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 

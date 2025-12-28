@@ -19,7 +19,7 @@ highland_remmer = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 5,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ highland_remmer = Creature:new {
 
 	templates = {"object/mobile/remmer_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/remmer_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 

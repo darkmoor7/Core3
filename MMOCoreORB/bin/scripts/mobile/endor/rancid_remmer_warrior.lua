@@ -19,7 +19,7 @@ rancid_remmer_warrior = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ rancid_remmer_warrior = Creature:new {
 
 	templates = {"object/mobile/remmer_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/remmer_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 

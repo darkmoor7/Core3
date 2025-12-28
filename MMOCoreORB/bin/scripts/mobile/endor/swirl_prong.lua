@@ -20,7 +20,7 @@ swirl_prong = Creature:new {
 	boneAmount = 80,
 	milkType = "milk_wild",
 	milk = 60,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -29,6 +29,7 @@ swirl_prong = Creature:new {
 
 	templates = {"object/mobile/swirl_prong_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/swirl_prong_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)
