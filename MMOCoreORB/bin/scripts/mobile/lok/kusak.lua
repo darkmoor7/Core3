@@ -19,7 +19,7 @@ kusak = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 10,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ kusak = Creature:new {
 
 	templates = {"object/mobile/kusak_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/kusak_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

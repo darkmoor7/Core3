@@ -19,7 +19,7 @@ gurk_whelp = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 250,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ gurk_whelp = Creature:new {
 
 	templates = {"object/mobile/gurk_whelp.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/gurk_hue.iff",
 	scale = 0.8,
 	lootGroups = {},
 

@@ -19,7 +19,7 @@ gungan_veermok = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 60,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 4,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -27,6 +27,7 @@ gungan_veermok = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/veermok_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/veermok_hue.iff",
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
 	lootGroups = {},
 

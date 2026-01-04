@@ -19,7 +19,7 @@ savage_flewt_queen = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 6,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ savage_flewt_queen = Creature:new {
 
 	templates = {"object/mobile/savage_flewt_queen.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/flewt_hue.iff",
 	scale = 1.4,
 	lootGroups = {},
 

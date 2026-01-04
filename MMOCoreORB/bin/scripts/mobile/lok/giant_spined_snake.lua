@@ -19,7 +19,7 @@ giant_spined_snake = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ giant_spined_snake = Creature:new {
 
 	templates = {"object/mobile/giant_spined_snake.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/spined_snake_hue.iff",
 	scale = 1.5,
 	lootGroups = {},
 

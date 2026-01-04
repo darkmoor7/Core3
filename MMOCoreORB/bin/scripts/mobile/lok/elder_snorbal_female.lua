@@ -20,7 +20,7 @@ elder_snorbal_female = Creature:new {
 	boneAmount = 420,
 	milkType = "milk_wild",
 	milk = 300,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -29,6 +29,7 @@ elder_snorbal_female = Creature:new {
 
 	templates = {"object/mobile/elder_snorbal_female.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/snorbal_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

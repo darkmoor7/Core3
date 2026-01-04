@@ -19,7 +19,7 @@ king_venom_nightspider = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ king_venom_nightspider = Creature:new {
 
 	templates = {"object/mobile/king_venom_nightspider.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/nightspider_hue.iff",
 	scale = 0.65,
 	lootGroups = {},
 

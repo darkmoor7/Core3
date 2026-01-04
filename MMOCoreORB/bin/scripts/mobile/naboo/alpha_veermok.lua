@@ -19,7 +19,7 @@ alpha_veermok = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 40,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 9,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -27,6 +27,7 @@ alpha_veermok = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/alpha_veermok.iff"},
+	controlDeviceTemplate = "object/intangible/pet/veermok_hue.iff",
 	scale = 1.25,
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
 	lootGroups = {},

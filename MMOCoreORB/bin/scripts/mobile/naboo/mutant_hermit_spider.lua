@@ -20,7 +20,7 @@ mutant_hermit_spider = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = STALKER,
@@ -28,6 +28,7 @@ mutant_hermit_spider = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/hermit_spider_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/hermit_spider_hue.iff",
 	scale = 1.5,
 	lootGroups = {},
 

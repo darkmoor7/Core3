@@ -19,7 +19,7 @@ young_spined_snake = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ young_spined_snake = Creature:new {
 
 	templates = {"object/mobile/young_spined_snake.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/spined_snake_hue.iff",
 	scale = 0.75,
 	lootGroups = {},
 

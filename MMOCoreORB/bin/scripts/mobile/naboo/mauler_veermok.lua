@@ -19,7 +19,7 @@ mauler_veermok = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 60,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 9,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ mauler_veermok = Creature:new {
 
 	templates = {"object/mobile/veermok_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/veermok_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

@@ -19,7 +19,7 @@ langlatch_giant = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 12,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + STALKER,
@@ -28,7 +28,8 @@ langlatch_giant = Creature:new {
 
 	templates = {"object/mobile/langlatch_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
-	scale = 1.5,
+	controlDeviceTemplate = "object/intangible/pet/langlatch_hue.iff",
+	scale = 1.7,
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

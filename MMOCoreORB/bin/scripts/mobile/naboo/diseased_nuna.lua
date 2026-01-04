@@ -19,7 +19,7 @@ diseased_nuna = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 2,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = NONE,
@@ -27,6 +27,7 @@ diseased_nuna = Creature:new {
 	diet = HERBIVORE,
 
 	templates = {"object/mobile/nuna_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/nuna_hue.iff",
 	scale = 0.9,
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
 	lootGroups = {},

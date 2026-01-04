@@ -19,7 +19,7 @@ nightspider = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = NONE,
@@ -28,6 +28,7 @@ nightspider = Creature:new {
 
 	templates = {"object/mobile/nightspider.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/nightspider_hue.iff",
 	scale = .5,
 	lootGroups = {},
 

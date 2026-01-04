@@ -19,7 +19,7 @@ kimogila = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + KILLER,
@@ -28,7 +28,8 @@ kimogila = Creature:new {
 
 	templates = {"object/mobile/kimogila_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
-	scale = 0.85,
+	controlDeviceTemplate = "object/intangible/pet/kimogila_hue.iff",
+	scale = 0.95,
 	lootGroups = {
 	 {
 	        groups = {

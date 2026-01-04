@@ -19,7 +19,7 @@ hermit_spider_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ hermit_spider_queen = Creature:new {
 
 	templates = {"object/mobile/hermit_spider_queen.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/hermit_spider_hue.iff",
 	scale = 1.4,
 	lootGroups = {},
 

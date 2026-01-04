@@ -20,7 +20,7 @@ snorbal_matriarch = Creature:new {
 	boneAmount = 435,
 	milkType = "milk_wild",
 	milk = 350,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -29,6 +29,7 @@ snorbal_matriarch = Creature:new {
 
 	templates = {"object/mobile/snorbal_matriarch.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/snorbal_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 

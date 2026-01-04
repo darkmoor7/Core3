@@ -19,7 +19,7 @@ elder_gualama = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 90,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = NONE,
@@ -27,6 +27,7 @@ elder_gualama = Creature:new {
 	diet = HERBIVORE,
 
 	templates = {"object/mobile/gualama_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/gualama_hue.iff",
 	scale = 1.2,
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
 	lootGroups = {},

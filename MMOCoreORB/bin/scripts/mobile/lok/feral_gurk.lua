@@ -19,7 +19,7 @@ feral_gurk = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 300,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + STALKER,
@@ -28,6 +28,7 @@ feral_gurk = Creature:new {
 
 	templates = {"object/mobile/gurk_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/gurk_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

@@ -19,7 +19,7 @@ runty_pharple = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 5,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ runty_pharple = Creature:new {
 
 	templates = {"object/mobile/runty_pharple.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/pharple_hue.iff",
 	scale = 0.9,
 	lootGroups = {},
 

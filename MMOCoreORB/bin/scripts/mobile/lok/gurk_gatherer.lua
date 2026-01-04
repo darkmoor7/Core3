@@ -19,7 +19,7 @@ gurk_gatherer = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 300,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ gurk_gatherer = Creature:new {
 
 	templates = {"object/mobile/gurk_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/gurk_hue.iff",
 	scale = 1.05,
 	lootGroups = {},
 

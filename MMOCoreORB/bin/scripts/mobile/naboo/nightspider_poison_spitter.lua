@@ -19,7 +19,7 @@ nightspider_poison_spitter = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + STALKER,
@@ -28,6 +28,7 @@ nightspider_poison_spitter = Creature:new {
 
 	templates = {"object/mobile/nightspider_poison_spitter.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/nightspider_hue.iff",
 	scale = 0.6,
 	lootGroups = {},
 

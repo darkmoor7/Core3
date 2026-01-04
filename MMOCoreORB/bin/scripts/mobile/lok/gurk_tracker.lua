@@ -19,7 +19,7 @@ gurk_tracker = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 302,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ gurk_tracker = Creature:new {
 
 	templates = {"object/mobile/gurk_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/gurk_hue.iff",
 	scale = 1.1,
 	lootGroups = {},
 

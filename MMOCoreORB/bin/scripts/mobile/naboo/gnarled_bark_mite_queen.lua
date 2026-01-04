@@ -19,7 +19,7 @@ gnarled_bark_mite_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD,
@@ -27,6 +27,7 @@ gnarled_bark_mite_queen = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/gnarled_bark_mite_queen.iff"},
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 

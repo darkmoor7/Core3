@@ -19,7 +19,7 @@ spineflap_queen = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 3,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 7,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ spineflap_queen = Creature:new {
 
 	templates = {"object/mobile/spineflap_queen.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/capper_spineflap_hue.iff",
 	scale = 1.25,
 	lootGroups = {},
 

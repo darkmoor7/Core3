@@ -19,7 +19,7 @@ poisonous_krevol_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -27,6 +27,7 @@ poisonous_krevol_queen = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/poisonous_krevol_queen.iff"},
+	controlDeviceTemplate = "object/intangible/pet/horned_krevol_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

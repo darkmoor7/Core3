@@ -19,7 +19,7 @@ peko_peko_albatross = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 100,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 8,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ peko_peko_albatross = Creature:new {
 
 	templates = {"object/mobile/peko_peko_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/peko_peko_hue.iff",
 	scale = 2.0,
 	lootGroups = {
 		{

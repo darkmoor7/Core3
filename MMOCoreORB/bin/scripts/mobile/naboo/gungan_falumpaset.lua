@@ -20,7 +20,7 @@ gungan_falumpaset = Creature:new {
 	boneAmount = 80,
 	milkType = "milk_domesticated",
 	milk = 125,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 8,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ gungan_falumpaset = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/falumpaset_hue.iff"},
+	controlDeviceTemplate = "object/intangible/pet/falumpaset_hue.iff",
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
 	scale = 1.2,
 	lootGroups = {},

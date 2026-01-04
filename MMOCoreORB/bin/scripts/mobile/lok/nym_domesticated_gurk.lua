@@ -19,7 +19,7 @@ nym_domesticated_gurk = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 250,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -28,6 +28,7 @@ nym_domesticated_gurk = Creature:new {
 
 	templates = {"object/mobile/gurk_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/gurk_hue.iff",
 	scale = 0.8,
 	lootGroups = {},
 

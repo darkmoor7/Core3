@@ -20,7 +20,7 @@ giant_fanned_rawl = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 17,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 3,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -29,6 +29,7 @@ giant_fanned_rawl = Creature:new {
 
 	templates = {"object/mobile/fanned_rawl_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/fanned_rawl_hue.iff",
 	scale = 1.5,
 	lootGroups = {},
 

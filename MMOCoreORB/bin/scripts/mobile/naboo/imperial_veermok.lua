@@ -19,7 +19,7 @@ imperial_veermok = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 60,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + KILLER,
@@ -28,6 +28,7 @@ imperial_veermok = Creature:new {
 
 	templates = {"object/mobile/veermok_hue.iff"},
 	hues = { 8, 9, 10, 11, 12, 13, 14, 15 },
+	controlDeviceTemplate = "object/intangible/pet/veermok_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

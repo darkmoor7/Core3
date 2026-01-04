@@ -20,7 +20,7 @@ gungan_fambaa = Creature:new {
 	boneAmount = 725,
 	milkType = "milk_domesticated",
 	milk = 400,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 3,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK,
@@ -29,6 +29,7 @@ gungan_fambaa = Creature:new {
 
 	templates = {"object/mobile/fambaa_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/fambaa_hue.iff",
 	scale = 1.2,
 	lootGroups = {
 	 {

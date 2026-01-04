@@ -19,7 +19,7 @@ massive_gnort = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 6,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = HERD,
@@ -28,6 +28,7 @@ massive_gnort = Creature:new {
 
 	templates = {"object/mobile/gnort_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/gnort_hue.iff",
 	scale = 2,
 	lootGroups = {},
 

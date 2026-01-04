@@ -20,7 +20,7 @@ bolle_bol = Creature:new {
 	boneAmount = 180,
 	milkType = "milk_wild",
 	milk = 300,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 6,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -29,6 +29,7 @@ bolle_bol = Creature:new {
 
 	templates = {"object/mobile/bolle_bol_hue.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/bolle_bol_hue.iff",
 	lootGroups = {},
 
 	-- Primary and secondary weapon should be different types (rifle/carbine, carbine/pistol, rifle/unarmed, etc)

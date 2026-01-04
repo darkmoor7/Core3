@@ -19,7 +19,7 @@ irate_flewt_matriarch = Creature:new {
 	boneType = "bone_avian",
 	boneAmount = 4,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ irate_flewt_matriarch = Creature:new {
 
 	templates = {"object/mobile/flewt_hue.iff"},
 	hues = { 24, 25, 26, 27, 28, 29, 30, 31 },
+	controlDeviceTemplate = "object/intangible/pet/flewt_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 
