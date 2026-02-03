@@ -19,7 +19,7 @@ enraged_wood_mite_king = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ enraged_wood_mite_king = Creature:new {
 
 	templates = {"object/mobile/enraged_wood_mite_king.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 1.2,
 	lootGroups = {},
 

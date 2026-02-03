@@ -19,7 +19,7 @@ mutant_bark_mite_soldier = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 6,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ mutant_bark_mite_soldier = Creature:new {
 
 	templates = {"object/mobile/bark_mite_hue.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 2.5,
 	lootGroups = {},
 

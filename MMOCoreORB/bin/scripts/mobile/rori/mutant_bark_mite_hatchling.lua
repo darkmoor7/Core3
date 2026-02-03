@@ -19,7 +19,7 @@ mutant_bark_mite_hatchling = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.2,
 	ferocity = 1,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ mutant_bark_mite_hatchling = Creature:new {
 
 	templates = {"object/mobile/bark_mite_hatchling.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = .9,
 	lootGroups = {},
 

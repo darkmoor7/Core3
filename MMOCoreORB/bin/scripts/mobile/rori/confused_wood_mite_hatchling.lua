@@ -19,7 +19,7 @@ confused_wood_mite_hatchling = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ confused_wood_mite_hatchling = Creature:new {
 
 	templates = {"object/mobile/confused_wood_mite_hatchling.iff"},
 	hues = { 0, 1, 2, 3, 4, 5, 6, 7 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 0.85,
 	lootGroups = {},
 

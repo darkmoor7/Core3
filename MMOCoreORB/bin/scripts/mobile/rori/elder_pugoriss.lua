@@ -19,7 +19,7 @@ elder_pugoriss = Creature:new {
 	boneType = "bone_mammal",
 	boneAmount = 45,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.25,
 	ferocity = 0,
 	pvpBitmask = ATTACKABLE,
 	creatureBitmask = PACK + HERD,
@@ -28,6 +28,7 @@ elder_pugoriss = Creature:new {
 
 	templates = {"object/mobile/elder_pugoriss.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/pugoriss_hue.iff",
 	scale = 1.15,
 	lootGroups = {},
 

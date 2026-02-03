@@ -19,7 +19,7 @@ mutant_bark_mite_queen = Creature:new {
 	boneType = "",
 	boneAmount = 0,
 	milk = 0,
-	tamingChance = 0,
+	tamingChance = 0.15,
 	ferocity = 6,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
 	creatureBitmask = PACK + HERD + KILLER,
@@ -28,6 +28,7 @@ mutant_bark_mite_queen = Creature:new {
 
 	templates = {"object/mobile/bark_mite_burrower_queen.iff"},
 	hues = { 16, 17, 18, 19, 20, 21, 22, 23 },
+	controlDeviceTemplate = "object/intangible/pet/bark_mite_hue.iff",
 	scale = 3,
 	lootGroups = {},
 
