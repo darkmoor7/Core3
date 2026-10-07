@@ -70,6 +70,7 @@
 #include "server/login/account/AccountManager.h"
 #include "templates/creature/SharedCreatureObjectTemplate.h"
 #include "server/zone/objects/player/sessions/survey/SurveySession.h"
+#include "server/zone/objects/player/sessions/crafting/CraftingSession.h"
 
 #include "server/zone/objects/tangible/deed/eventperk/EventPerkDeed.h"
 #include "server/zone/managers/player/QuestInfo.h"
@@ -1438,7 +1439,7 @@ void PlayerObjectImplementation::addFriend(const String& name, bool notifyClient
 			strongParent->sendMessage(notifyStatus);
 		}
 
-		friendList.add(nameLower);
+		friendList.add(nameLower, nullptr, 0);
 
 		PlayerObjectDeltaMessage9* delta = new PlayerObjectDeltaMessage9(asPlayerObject());
 		friendList.insertToDeltaMessage(delta);
@@ -1452,7 +1453,7 @@ void PlayerObjectImplementation::addFriend(const String& name, bool notifyClient
 			(cast<CreatureObject*>(strongParent.get()))->sendSystemMessage(param);
 
 	} else {
-		friendList.add(nameLower);
+		friendList.add(nameLower, nullptr, 0);
 	}
 }
 
@@ -1602,7 +1603,7 @@ void PlayerObjectImplementation::addIgnore(const String& name, bool notifyClient
 		ChatOnChangeIgnoreStatus* add = new ChatOnChangeIgnoreStatus(parent->getObjectID(),	nameLower, server->getZoneServer()->getGalaxyName(), true);
 		parent->sendMessage(add);
 
-		ignoreList.add(nameLower);
+		ignoreList.add(nameLower, nullptr, 0);
 
 		PlayerObjectDeltaMessage9* delta = new PlayerObjectDeltaMessage9(asPlayerObject());
 		ignoreList.insertToDeltaMessage(delta);
@@ -1616,7 +1617,7 @@ void PlayerObjectImplementation::addIgnore(const String& name, bool notifyClient
 			(cast<CreatureObject*>(parent.get()))->sendSystemMessage(param);
 
 	} else {
-		ignoreList.add(nameLower);
+		ignoreList.add(nameLower, nullptr, 0);
 	}
 }
 
@@ -1894,6 +1895,15 @@ void PlayerObjectImplementation::notifyOffline() {
 
 	if (session != nullptr) {
 		session->cancelSession();
+	}
+
+	// Cancel an open crafting session at offline, like survey. Zone removal already
+	// cancels active sessions (ZoneContainerComponent::removeObject), so this only makes
+	// the cancel prompt instead of waiting for the link-dead character to leave the
+	// world; clearSession is what removes the prototype's persistent children.
+	ManagedReference<CraftingSession*> craftingSession = playerCreature->getActiveSession(SessionFacadeType::CRAFTING).castTo<CraftingSession*>();
+	if (craftingSession != nullptr) {
+		craftingSession->cancelSession();
 	}
 
 	logSessionStats(true);
@@ -3046,7 +3056,7 @@ void PlayerObjectImplementation::destroyObjectFromDatabase(bool destroyContained
 		ManagedReference<TangibleObject*> vendor = getZoneServer()->getObject(oid).castTo<TangibleObject*>();
 
 		if (vendor != nullptr) {
-			VendorManager::instance()->destroyVendor(vendor);
+			VendorManager::instance()->destroyVendor(vendor, "owner character deleted");
 		}
 	}
 

@@ -77,7 +77,14 @@ namespace server {
 			Mutex blockingMutex;
 			Condition blockingCondition;
 			bool blockingReceived;
-			bool useSignalQueue;  // Use non-blocking signal queue for callback
+
+			// true: dispatch on main queue (paused during save).
+			// false: dispatch on signal queue (runs during save).
+			bool blockDuringSaveEvent;
+
+			// true: caller runs applyToManagedObject() after wait_for.
+			// false: queue thread runs applyToManagedObject() before the callback.
+			bool isBlockingCall;
 
 #ifdef WITH_SWGREALMS_CALLSTATS
 			// Call trace for detailed profiling (maintains insertion order)
@@ -90,18 +97,10 @@ namespace server {
 			SWGRealmsAPIResult();
 			virtual ~SWGRealmsAPIResult();
 
-			// Parse from JSON - implemented by subclasses.
-			// Runs on the cpprestsdk continuation thread, so MUST NOT acquire
-			// managed-object Lockers or do anything that can block. Populate
-			// POD member fields only; defer managed-object mutation to
-			// applyToManagedObject().
+			// Parse JSON into POD members. Must not acquire Lockers.
 			virtual bool parse() = 0;
 
-			// Apply parsed fields to managed objects under proper Locker.
-			// Runs on a Core3 task-queue thread (not the cpprestsdk
-			// continuation thread) so we never starve the HTTP client's pool
-			// on managed-object lock contention. Default no-op; subclasses
-			// that mutate managed objects override.
+			// Apply POD members to managed objects under Locker.
 			virtual void applyToManagedObject() {}
 
 			// Invoke the callback if set
@@ -432,6 +431,11 @@ namespace server {
 			// WebSocket streaming client (owned, nullable if disabled)
 			SWGRealmsStreamer* streamer = nullptr;
 
+			// Task queues - registered in ctor so workers spawn at boot and don't potentially block a save
+			TaskQueue* blockingQueue = nullptr;     // Blocks during save - async callbacks that modify objects
+			TaskQueue* signalQueue = nullptr;       // Non-blocking - blocking call completion signals only
+			TaskQueue* metricsQueue = nullptr;      // 1 thread for metrics (BDB handle optimization)
+
 			// Blocking call statistics
 			AtomicInteger outstandingBlockingCalls = 0;
 			AtomicInteger peakConcurrentCalls = 0;
@@ -454,6 +458,11 @@ namespace server {
 		public:
 			SWGRealmsAPI();
 			~SWGRealmsAPI();
+
+			// Suppress the telemetry websocket for offline tools that publish no
+			// trxlog/metrics events. The REST client is unaffected. Must be called
+			// before the first instance().
+			static void disableStreaming();
 
 			inline void incrementTrxCount() {
 				trxCount.increment();
@@ -578,10 +587,6 @@ namespace server {
 			bool isStreamConnected() const;
 			int getStreamPendingCount() const;
 
-			// Task queues
-			static const TaskQueue* getCustomQueue();        // Blocks during save - for async callbacks that modify objects
-			static const TaskQueue* getSignalQueue();        // Non-blocking - for blocking call completion signals only
-			static const TaskQueue* getCustomMetricsQueue(); // 1 thread for metrics (BDB handle optimization)
 			void scheduleMetricsPublish();
 		};
 	}
