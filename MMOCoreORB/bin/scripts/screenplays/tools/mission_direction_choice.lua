@@ -1,30 +1,31 @@
--- Allows players to choose the direction they want to take destroy missions
+-- Allows players to choose the direction they want to take destroy and recon missions.
+-- Headings are clockwise from north, matching world placement. 360 is north so 0 can mean reset.
 --
 --							N 0/360
 --							|
---					NW 45   |	NE 315
+--					NW 315  |	NE 45
 --						  \ | /
 --						   \|/
---			W 90  ----------+---------- E 270
+--			W 270 ----------+---------- E 90
 --						   /|\
 --						  / | \
---					SW 135	|  SE 225
+--					SW 225	|  SE 135
 --							|
 --							S 180
 
 mission_direction_choice = ScreenPlay:new {
 	numberOfActs = 1,
-	
+
 	directions = {
 		{dirDesc = "Reset Direction", dirSelect = 0},
 		{dirDesc = "North", dirSelect = 360},
-		{dirDesc = "North West", dirSelect = 45},
-		{dirDesc = "West", dirSelect = 90}, 
-		{dirDesc = "South West", dirSelect = 135}, 
-		{dirDesc = "South", dirSelect = 180}, 
-		{dirDesc = "South East", dirSelect = 225}, 
-		{dirDesc = "East", dirSelect = 270}, 
-		{dirDesc = "North East", dirSelect = 315}, 
+		{dirDesc = "North East", dirSelect = 45},
+		{dirDesc = "East", dirSelect = 90},
+		{dirDesc = "South East", dirSelect = 135},
+		{dirDesc = "South", dirSelect = 180},
+		{dirDesc = "South West", dirSelect = 225},
+		{dirDesc = "West", dirSelect = 270},
+		{dirDesc = "North West", dirSelect = 315},
 	}
 }
 
@@ -41,13 +42,6 @@ function mission_direction_choice:openWindow(pPlayer)
 end
 
 function mission_direction_choice:showLevels(pPlayer)
-
-	local cancelPressed = (eventIndex == 1)
-
-	if (cancelPressed) then
-		return
-	end
-
 	local sui = SuiListBox.new("mission_direction_choice", "dirSelection") -- calls dirSelection on SUI window event
 
 	sui.setTargetNetworkId(SceneObject(pPlayer):getObjectID())
@@ -78,10 +72,24 @@ function  mission_direction_choice:dirSelection(pPlayer, pSui, eventIndex, args)
 		return
 	end
 
-	local selectedIndex = tonumber(args)+1
+	local selectedIndex = tonumber(args)
 
-	local selectedDir = tonumber(self.directions[selectedIndex].dirSelect)
-	local selectedDirDesc = self.directions[selectedIndex].dirDesc
+	if (selectedIndex == nil) then
+		CreatureObject(pPlayer):sendSystemMessage("No direction was selected...")
+		return
+	end
+
+	selectedIndex = selectedIndex + 1
+
+	local selectedEntry = self.directions[selectedIndex]
+
+	if (selectedEntry == nil) then
+		CreatureObject(pPlayer):sendSystemMessage("No direction was selected...")
+		return
+	end
+
+	local selectedDir = tonumber(selectedEntry.dirSelect)
+	local selectedDirDesc = selectedEntry.dirDesc
 	
 	writeScreenPlayData(pPlayer, "mission_direction_choice", "directionChoice", selectedDir) 
 

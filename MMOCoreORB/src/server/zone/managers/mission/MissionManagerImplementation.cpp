@@ -36,6 +36,52 @@
 #include "server/zone/managers/visibility/VisibilityManager.h"
 #include "server/zone/objects/building/BuildingObject.h"
 #include "server/zone/managers/director/DirectorManager.h"
+#include "server/zone/objects/player/PlayerObject.h"
+
+namespace {
+
+int readMissionChoice(CreatureObject* player, const char* screenPlay, const char* variable) {
+	if (player == nullptr)
+		return 0;
+
+	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
+
+	if (ghost == nullptr)
+		return 0;
+
+	const String value = ghost->getScreenPlayData(screenPlay, variable);
+
+	if (value.isEmpty())
+		return 0;
+
+	return Integer::valueOf(value);
+}
+
+int getChosenMissionLevel(CreatureObject* player) {
+	int level = readMissionChoice(player, "mission_level_choice", "levelChoice");
+
+	return level > 0 ? level : 0;
+}
+
+// Angle passed to SceneObject::getWorldCoordinate. 0 is straight ahead and positive
+// angles run counter-clockwise. A stored compass bearing is clockwise from north,
+// with 360 meaning north so 0 can mean "use the normal random direction".
+float getMissionDirectionAngle(CreatureObject* player) {
+	int chosen = readMissionChoice(player, "mission_direction_choice", "directionChoice");
+
+	if (player == nullptr || chosen <= 0)
+		return (float)System::random(360);
+
+	int worldBearing = chosen % 360;
+	const int variance = 20;
+
+	worldBearing += (int)System::random(variance * 2) - variance;
+	worldBearing = (worldBearing % 360 + 360) % 360;
+
+	return player->getDirectionAngle() - (float)worldBearing;
+}
+
+}
 
 void MissionManagerImplementation::loadLuaSettings() {
 	try {
@@ -822,7 +868,11 @@ void MissionManagerImplementation::randomizeGenericDestroyMission(CreatureObject
 		return;
 	}
 
-	int playerLevel = server->getPlayerManager()->calculatePlayerLevel(player);
+	int playerLevel = getChosenMissionLevel(player);
+
+	if (playerLevel <= 0)
+		playerLevel = server->getPlayerManager()->calculatePlayerLevel(player);
+
 	int maxDiff = randomLairSpawn->getMaxDifficulty();
 	int minDiff = randomLairSpawn->getMinDifficulty();
 	int difficultyLevel = System::random(maxDiff - minDiff) + minDiff;
@@ -833,7 +883,7 @@ void MissionManagerImplementation::randomizeGenericDestroyMission(CreatureObject
 
 	int diffDisplay = difficultyLevel < 5 ? 4 : difficultyLevel;
 
-	if (player->isGrouped()) {
+	if (getChosenMissionLevel(player) <= 0 && player->isGrouped()) {
 		bool includeFactionPets = faction != Factions::FACTIONNEUTRAL || ConfigManager::instance()->includeFactionPetsForMissionDifficulty();
 		Reference<GroupObject*> group = player->getGroup();
 
@@ -871,7 +921,7 @@ void MissionManagerImplementation::randomizeGenericDestroyMission(CreatureObject
 
 		int distance = destroyMissionBaseDistance + destroyMissionDifficultyDistanceFactor * difficultyLevel;
 		distance += System::random(destroyMissionRandomDistance) + System::random(destroyMissionDifficultyRandomDistance * difficultyLevel);
-		startPos = player->getWorldCoordinate((float)distance, (float)System::random(360), false);
+		startPos = player->getWorldCoordinate((float)distance, getMissionDirectionAngle(player), false);
 
 		if (zone->isWithinBoundaries(startPos)) {
 			float height = zone->getHeight(startPos.getX(), startPos.getY());
@@ -1635,7 +1685,7 @@ void MissionManagerImplementation::randomizeGenericReconMission(CreatureObject* 
 
 	int maximumNumberOfTries = 20;
 	while (!foundPosition && maximumNumberOfTries-- > 0) {
-		position = player->getWorldCoordinate(System::random(3000) + 1000, (float)System::random(360), false);
+		position = player->getWorldCoordinate(System::random(3000) + 1000, getMissionDirectionAngle(player), false);
 
 		//Check if it is a position where you can build and away from any travel points.
 		if (playerZone->getPlanetManager()->isBuildingPermittedAt(position.getX(), position.getY(), nullptr)) {
@@ -1875,22 +1925,31 @@ LairSpawn* MissionManagerImplementation::getRandomLairSpawn(CreatureObject* play
 
 	bool foundLair = false;
 	int counter = availableLairList->size();
-	int playerLevel = server->getPlayerManager()->calculatePlayerLevel(player);
+	int chosenLevel = getChosenMissionLevel(player);
+	int playerLevel = chosenLevel;
 
-	if (player->isGrouped()) {
-		bool includeFactionPets = faction != Factions::FACTIONNEUTRAL || ConfigManager::instance()->includeFactionPetsForMissionDifficulty();
-		Reference<GroupObject*> group = player->getGroup();
+	if (playerLevel <= 0) {
+		playerLevel = server->getPlayerManager()->calculatePlayerLevel(player);
 
-		if (group != nullptr) {
-			Locker locker(group);
-			playerLevel = group->getGroupLevel(includeFactionPets);
+		if (player->isGrouped()) {
+			bool includeFactionPets = faction != Factions::FACTIONNEUTRAL || ConfigManager::instance()->includeFactionPetsForMissionDifficulty();
+			Reference<GroupObject*> group = player->getGroup();
+
+			if (group != nullptr) {
+				Locker locker(group);
+				playerLevel = group->getGroupLevel(includeFactionPets);
+			}
 		}
 	}
 
 	LairSpawn* lairSpawn = nullptr;
 
-	//Cap the minLevel to prevent a group from being too high to get missions on a planet
-	int minLevel = Math::min(playerLevel - 5, minLevelCeiling);
+	// Cap the minLevel to prevent a group from being too high to get missions on a planet.
+	// An explicit terminal level choice keeps the requested band instead of that cap.
+	int minLevel = playerLevel - 5;
+
+	if (chosenLevel <= 0)
+		minLevel = Math::min(minLevel, minLevelCeiling);
 
 	//Try to pick random lair within playerLevel +-5;
 	while (counter > 0 && !foundLair) {
@@ -1936,7 +1995,7 @@ LairSpawn* MissionManagerImplementation::getRandomLairSpawn(CreatureObject* play
 		}
 	}
 
-	if (!foundLair) {
+	if (!foundLair && chosenLevel <= 0) {
 		//There are no lairs within playerLevel +-5, pick the first lair below playerLevel +5
 		for (int i = 0; i < availableLairList->size(); i++) {
 			LairSpawn* randomLairSpawn = availableLairList->get(i);
