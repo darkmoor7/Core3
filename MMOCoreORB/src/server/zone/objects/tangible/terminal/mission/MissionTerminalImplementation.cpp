@@ -31,20 +31,14 @@ void MissionTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 		menuResponse->addRadialMenuItemToRadialID(73, 77, 3, "@city/city:west"); // West
 	    }
 
-	    if (terminalType == "general" || terminalType == "imperial" || terminalType == "rebel") {
- 
-	            Lua* lua = DirectorManager::instance()->getLuaInstance();
-			    if (lua == nullptr) {
-				        return;
-			    }
+	if (terminalType == "general" || terminalType == "imperial" || terminalType == "rebel") {
+		// SERVER_MENU slots are sent back to the server. 112/113 are harvest-corpse and
+		// listen-to-performance, which the client handles locally and never selects here.
+		menuResponse->addRadialMenuItem(RadialOptions::SERVER_MENU1, 3, "Choose Mission Level");
 
-	    menuResponse->addRadialMenuItem(112, 3, "Choose Mission Level");
-
-	    if (!player->isGrouped()) {
-		        menuResponse->addRadialMenuItem(113, 3, "Choose Mission Direction");
-	    
-	    }
-    }
+		if (!player->isGrouped())
+			menuResponse->addRadialMenuItem(RadialOptions::SERVER_MENU3, 3, "Choose Mission Direction");
+	}
 }
 
 int MissionTerminalImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
@@ -95,38 +89,25 @@ int MissionTerminalImplementation::handleObjectMenuSelect(CreatureObject* player
 		        cityManager->alignAmenity(city, player, _this.getReferenceUnsafeStaticCast(), selectedID - 74);
 
 		        return 0;
-	    } else if (selectedID == 112) {
+	} else if (selectedID == RadialOptions::SERVER_MENU1 || selectedID == RadialOptions::SERVER_MENU3) {
+		Lua* lua = DirectorManager::instance()->getLuaInstance();
 
-		        Lua* lua = DirectorManager::instance()->getLuaInstance();
-		        if (lua == nullptr) { 
-			            return 0;
-	            }
+		if (lua == nullptr)
+			return 0;
 
-	            Reference<LuaFunction*> mission_level_choice = lua->createFunction("mission_level_choice", "openWindow", 0);
-	            if (mission_level_choice == nullptr) {
-		                return 0;
-	            }
+		const char* screenPlay = selectedID == RadialOptions::SERVER_MENU1 ? "mission_level_choice" : "mission_direction_choice";
+		Reference<LuaFunction*> choiceWindow = lua->createFunction(screenPlay, "openWindow", 0);
 
-	            *mission_level_choice<< player; 
+		if (choiceWindow == nullptr) {
+			error("Unable to open " + String(screenPlay));
+			return 0;
+		}
 
-	            mission_level_choice->callFunction();
-	            return 0;
-		} else if (selectedID == 113) {
-			   
-			   Lua* lua = DirectorManager::instance()->getLuaInstance();
-			   if (lua == nullptr) {
-				       return 0;
-			   }
+		*choiceWindow << player;
+		choiceWindow->callFunction();
 
-			   Reference<LuaFunction*> mission_direction_choice = lua->createFunction("mission_direction_choice", "openWindow", 0);
-			   if (mission_direction_choice == nullptr) {
-				       return 0;
-			   }
-			   *mission_direction_choice << player; 
-
-			   mission_direction_choice->callFunction();
-			   return 0;
-			}
+		return 0;
+	}
  
 	return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
 }

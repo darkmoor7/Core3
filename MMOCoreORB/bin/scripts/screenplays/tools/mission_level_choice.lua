@@ -30,13 +30,6 @@ function mission_level_choice:openWindow(pPlayer)
 end
 
 function mission_level_choice:showLevels(pPlayer)
-
-	local cancelPressed = (eventIndex == 1)
-
-	if (cancelPressed) then
-		return
-	end
-
 	local sui = SuiListBox.new("mission_level_choice", "levelSelection") -- calls levelSelection on SUI window event
 
 	sui.setTargetNetworkId(SceneObject(pPlayer):getObjectID())
@@ -67,10 +60,24 @@ function  mission_level_choice:levelSelection(pPlayer, pSui, eventIndex, args)
 		return
 	end
 
-	local selectedLevelIndex = tonumber(args)+1
+	local selectedLevelIndex = tonumber(args)
 
-	local selectedLevel = self.levels[selectedLevelIndex].levelSelect
-	local selectedRange = self.levels[selectedLevelIndex].levelRange
+	if (selectedLevelIndex == nil) then
+		CreatureObject(pPlayer):sendSystemMessage("No level was selected...")
+		return
+	end
+
+	selectedLevelIndex = selectedLevelIndex + 1
+
+	local selectedEntry = self.levels[selectedLevelIndex]
+
+	if (selectedEntry == nil) then
+		CreatureObject(pPlayer):sendSystemMessage("No level was selected...")
+		return
+	end
+
+	local selectedLevel = selectedEntry.levelSelect
+	local selectedRange = selectedEntry.levelRange
 	
 	writeScreenPlayData(pPlayer, "mission_level_choice", "levelChoice", selectedLevel) 
 
