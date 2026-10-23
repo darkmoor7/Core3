@@ -1,5 +1,5 @@
 endor_blurrg_raptor_neutral_none = Lair:new {
-	mobiles = {{"blurrg_raptor",1}},
+	mobiles = {{"blurrg_raptor",2}},
 	spawnLimit = 3,
 	buildingsVeryEasy = {},
 	buildingsEasy = {},
