@@ -116,12 +116,12 @@ object_weapon_melee_special_blacksun_razor = object_weapon_melee_special_shared_
 	maxRange = 7,
 	maxRangeAccuracy = 3,
 
-	minDamage = 89,
-	maxDamage = 224,
+	minDamage = 139,
+	maxDamage = 284,
 	
-	attackSpeed = 3.0,
+	attackSpeed = 1.2,
 
-	woundsRatio = 8,
+	woundsRatio = 48,
 
 	numberExperimentalProperties = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	experimentalProperties = {"XX", "XX", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "XX", "SR", "XX", "SR", "SR", "SR"},
