@@ -115,12 +115,12 @@ object_weapon_ranged_carbine_carbine_nym_slugthrower = object_weapon_ranged_carb
 	maxRange = 64,
 	maxRangeAccuracy = -60,
 
-	minDamage = 103,
-	maxDamage = 207,
+	minDamage = 123,
+	maxDamage = 227,
 
 	woundsRatio = 16,
 
-	attackSpeed = 4.0
+	attackSpeed = 2.0
 }
 
 ObjectTemplates:addTemplate(object_weapon_ranged_carbine_carbine_nym_slugthrower, "object/weapon/ranged/carbine/carbine_nym_slugthrower.iff")

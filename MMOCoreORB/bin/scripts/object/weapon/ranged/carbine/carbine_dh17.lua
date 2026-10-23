@@ -115,10 +115,10 @@ object_weapon_ranged_carbine_carbine_dh17 = object_weapon_ranged_carbine_shared_
 	maxRange = 64,
 	maxRangeAccuracy = -60,
 
-	minDamage = 40,
-	maxDamage = 115,
+	minDamage = 50,
+	maxDamage = 125,
 
-	attackSpeed = 3.5,
+	attackSpeed = 2.5,
 
 	woundsRatio = 9,
 

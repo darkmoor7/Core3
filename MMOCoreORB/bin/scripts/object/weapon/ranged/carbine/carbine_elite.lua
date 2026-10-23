@@ -115,10 +115,10 @@ object_weapon_ranged_carbine_carbine_elite = object_weapon_ranged_carbine_shared
 	maxRange = 64,
 	maxRangeAccuracy = -50,
 
-	minDamage = 80,
-	maxDamage = 125,
+	minDamage = 100,
+	maxDamage = 145,
 
-	attackSpeed = 4.1,
+	attackSpeed = 2.1,
 
 	woundsRatio = 12,
 

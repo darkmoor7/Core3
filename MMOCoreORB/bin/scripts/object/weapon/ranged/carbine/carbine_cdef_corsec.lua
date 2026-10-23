@@ -115,10 +115,10 @@ object_weapon_ranged_carbine_carbine_cdef_corsec = object_weapon_ranged_carbine_
 	maxRange = 65,
 	maxRangeAccuracy = 0,
 
-	minDamage = 17,
-	maxDamage = 35,
+	minDamage = 37,
+	maxDamage = 55,
 
-	attackSpeed = 4.6,
+	attackSpeed = 3.6,
 
 	woundsRatio = 4,
 }
