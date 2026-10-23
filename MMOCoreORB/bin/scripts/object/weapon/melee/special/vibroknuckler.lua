@@ -116,12 +116,12 @@ object_weapon_melee_special_vibroknuckler = object_weapon_melee_special_shared_v
 	maxRange = 5,
 	maxRangeAccuracy = 10,
 
-	minDamage = 30,
-	maxDamage = 130,
+	minDamage = 90,
+	maxDamage = 190,
 
-	attackSpeed = 2.3,
+	attackSpeed = 1.3,
 
-	woundsRatio = 25,
+	woundsRatio = 45,
 
 	numberExperimentalProperties = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	experimentalProperties = {"XX", "XX", "SR", "SR", "SR", "SR", "SR", "SR", "SR", "XX", "SR", "XX", "SR", "SR", "SR"},
