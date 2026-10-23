@@ -41,13 +41,13 @@
 --which carries forward this exception.
 
 --Chance divisor for attribute bonus modifiers
-levelChance = 100
+levelChance = 50
 
 --Chance dividend for attribute bonus modifiers
 baseChance = 100
-yellowChance = 1000
-exceptionalChance = 100000
-legendaryChance = 1000000
+yellowChance = 100
+exceptionalChance = 500
+legendaryChance = 1000
 
 --Multiplier values for bonus modifiers
 baseModifier = 1
@@ -56,17 +56,17 @@ exceptionalModifier = 8
 legendaryModifier = 9
 
 --The chance for random skill mods to be on looted weapons/wearables
-skillModChance = 1000 -- 1 in 1000
+skillModChance = 500 -- 1 in 1000
 
 -- Dot Distribution chance by DOT type. They must equate to 1.0
-poisonDotChance = 0.50
+poisonDotChance = 0.35
 diseaseDotChance = 0.35
-fireDotChance = 0.15
+fireDotChance = 0.30
 
 -- Dot Distribution chance by HAM type. They must equate to 1.0
-healthDotChance = 0.50
+healthDotChance = 0.35
 actionDotChance = 0.35
-mindDotChance = 0.15
+mindDotChance = 0.30
 
 -- Value ranges for random dots on looted weapons (chance is set individually on the loot items)
 randomDotAttribute = {0, 8} -- See CreatureAttributes.h in src for numbers.
