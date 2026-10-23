@@ -118,12 +118,12 @@ object_weapon_melee_unarmed_unarmed_default_player = object_weapon_melee_unarmed
 	maxRange = 5,
 	maxRangeAccuracy = 5,
 
-	minDamage = 10,
-	maxDamage = 50,
+	minDamage = 30,
+	maxDamage = 80,
 	
 	attackSpeed = 2,
 	
-	woundsRatio = 5
+	woundsRatio = 15
 }
 
 ObjectTemplates:addTemplate(object_weapon_melee_unarmed_unarmed_default_player, "object/weapon/melee/unarmed/unarmed_default_player.iff")
