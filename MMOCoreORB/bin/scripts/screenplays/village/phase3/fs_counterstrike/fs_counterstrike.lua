@@ -348,9 +348,9 @@ function FsCounterStrike:completeQuest(pPlayer, teamComplete)
 		else
 			local buffItem = LuaFsBuffItem(pBuffItem)
 			buffItem:setBuffAttribute(6)
-			buffItem:setReuseTime(345600000)
-			buffItem:setBuffValue(900)
-			buffItem:setBuffDuration(5400)
+			buffItem:setReuseTime(86400000)
+			buffItem:setBuffValue(1900)
+			buffItem:setBuffDuration(10800)
 
 			if (teamComplete) then
 				CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:teamwork_bonus")
