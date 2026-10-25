@@ -4323,8 +4323,8 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					"Scatter Pistol", "object/weapon/ranged/pistol/pistol_scatter.iff",
 					"Scout Blaster", "object/weapon/ranged/pistol/pistol_scout_blaster.iff",
 					"SR Combat Pistol", "object/weapon/ranged/pistol/pistol_srcombat.iff",
-				-	"Striker Pistol", "object/weapon/ranged/pistol/pistol_striker.iff",
-				-	"Striker Pistol (noob)", "object/weapon/ranged/pistol/pistol_striker_noob.iff",
+					"Striker Pistol", "object/weapon/ranged/pistol/pistol_striker.iff",
+					"Striker Pistol (noob)", "object/weapon/ranged/pistol/pistol_striker_noob.iff",
 					"Tangle Pistol", "object/weapon/ranged/pistol/pistol_tangle.iff"
 				},
 				"Polearms",
@@ -4382,7 +4382,7 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 				"Light Jedi Holocron", "object/tangible/jedi/jedi_holocron_light.iff",
 			--	"Dark Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_dark.iff",
 			--	"Light Jedi Holocron (gift)", "object/tangible/jedi/no_drop_jedi_holocron_light.iff"
-			}
+			},
 			"Village Testing (Temporary)",
 			{
 				"Resources",
