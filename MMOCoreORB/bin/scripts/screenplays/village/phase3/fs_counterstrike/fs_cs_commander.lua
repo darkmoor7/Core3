@@ -3,7 +3,7 @@ local QuestManager = require("managers.quest.quest_manager")
 
 --[[
 Situations to test:
-1P takes down shield, 1P escorts commander (no extra reward)
+1P takes down shield, 1P escorts commander (color crystal and focused crystal)
 1P takes down shield, 1P dies, 1P escorts commander on last chance (1P should fail this if a 2P captures commander, no extra reward either way)
 1P takes down shield, 2P escorts commander, 2P dies/abandons escort, 1P captures (2P fails)
 1P takes down shield, 2P escorts, 2P dies, 1P escorts, 1P dies (both fail)
