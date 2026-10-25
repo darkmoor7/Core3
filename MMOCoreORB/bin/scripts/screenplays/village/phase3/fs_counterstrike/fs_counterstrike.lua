@@ -339,7 +339,8 @@ function FsCounterStrike:completeQuest(pPlayer, teamComplete)
 
 	CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:quest_complete")
 
-	if (teamComplete) then
+	-- Focused Crystal is awarded for a solo escort as well as a two-player turn-in.
+	if (pInventory ~= nil) then
 		local pBuffItem = giveItem(pInventory, "object/tangible/item/quest/force_sensitive/fs_buff_item.iff", -1, true)
 
 		if (pBuffItem == nil) then
@@ -350,9 +351,13 @@ function FsCounterStrike:completeQuest(pPlayer, teamComplete)
 			buffItem:setReuseTime(345600000)
 			buffItem:setBuffValue(900)
 			buffItem:setBuffDuration(5400)
-		end
 
-		CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:teamwork_bonus")
+			if (teamComplete) then
+				CreatureObject(pPlayer):sendSystemMessage("@fs_quest_village:teamwork_bonus")
+			else
+				CreatureObject(pPlayer):sendSystemMessage("A Focused Crystal has been placed in your inventory.")
+			end
+		end
 	end
 
 	FsCsCommander:destroyCommanderWaypoint(pPlayer)
