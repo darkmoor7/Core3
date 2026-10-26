@@ -116,7 +116,7 @@ object_weapon_ranged_carbine_carbine_dxr6 = object_weapon_ranged_carbine_shared_
 	maxRangeAccuracy = -80,
 
 	minDamage = 120,
-	maxDamage = 180,
+	maxDamage = 280,
 
 	attackSpeed = 3,
 

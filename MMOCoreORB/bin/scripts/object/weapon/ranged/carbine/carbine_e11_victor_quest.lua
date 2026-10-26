@@ -115,10 +115,10 @@ object_weapon_ranged_carbine_carbine_e11_victor_quest = object_weapon_ranged_car
 	maxRange = 65,
 	maxRangeAccuracy = 0,
 
-	minDamage = 62,
-	maxDamage = 104,
+	minDamage = 82,
+	maxDamage = 204,
 
-	attackSpeed = 4.8,
+	attackSpeed = 3.8,
 
 	woundsRatio = 10,
 }
