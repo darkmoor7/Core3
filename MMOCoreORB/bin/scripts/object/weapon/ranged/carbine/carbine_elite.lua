@@ -70,10 +70,10 @@ object_weapon_ranged_carbine_carbine_elite = object_weapon_ranged_carbine_shared
 	attackType = RANGEDATTACK,
 
 	-- ENERGY, KINETIC, ELECTRICITY, STUN, BLAST, HEAT, COLD, ACID, LIGHTSABER
-	damageType = ENERGY,
+	damageType = COLD,
 
 	-- NONE, LIGHT, MEDIUM, HEAVY
-	armorPiercing = LIGHT,
+	armorPiercing = MEDIUM,
 
 	-- combat_rangedspecialize_bactarifle, combat_rangedspecialize_rifle, combat_rangedspecialize_pistol, combat_rangedspecialize_heavy, combat_rangedspecialize_carbine
 	-- combat_meleespecialize_unarmed, combat_meleespecialize_twohand, combat_meleespecialize_polearm, combat_meleespecialize_onehand, combat_general,
@@ -115,8 +115,8 @@ object_weapon_ranged_carbine_carbine_elite = object_weapon_ranged_carbine_shared
 	maxRange = 64,
 	maxRangeAccuracy = -50,
 
-	minDamage = 100,
-	maxDamage = 245,
+	minDamage = 190,
+	maxDamage = 265,
 
 	attackSpeed = 2.1,
 
