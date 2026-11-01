@@ -259,8 +259,8 @@ public:
 
 		sendCureMessage(creature, creatureTarget);
 
-		if (creatureTarget != creature && !creatureTarget->isPet())
-			awardXp(creature, "medical", 50); //No experience for healing yourself or pets.
+		if (creatureTarget != creature)
+			awardXp(creature, "medical", 50); //No experience for healing yourself.
 
 		checkForTef(creature, creatureTarget);
 	}
@@ -412,8 +412,8 @@ public:
 			curePack->decreaseUseCount();
 		}
 
-		if (targetCreature != creature && !targetCreature->isPet())
-			awardXp(creature, "medical", 50); //No experience for healing yourself or pets.
+		if (targetCreature != creature)
+			awardXp(creature, "medical", 50); //No experience for healing yourself.
 
 		if (curePack->isArea()) {
 			if (creature != targetCreature)
