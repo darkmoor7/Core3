@@ -7,6 +7,7 @@
 
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/objects/tangible/pharmaceutical/StimPack.h"
+#include "server/zone/managers/player/PlayerManager.h"
 
 class HealPetCommand : public QueueCommand {
 	float range;
@@ -127,6 +128,21 @@ public:
 		creature->sendSystemMessage(msgPlayer.toString());
 	}
 
+	void awardXp(CreatureObject* creature, const String& type, int power) const {
+		if (!creature->isPlayerCreature())
+			return;
+
+		CreatureObject* player = cast<CreatureObject*>(creature);
+
+		int amount = (int)round((float)power * 0.25f);
+
+		if (amount <= 0)
+			return;
+
+		PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
+		playerManager->awardExperience(player, type, amount, true);
+	}
+
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 
 		int result = doCommonMedicalCommandChecks(creature);
@@ -220,6 +236,8 @@ public:
 		}
 
 		sendHealMessage(creature, pet, healthHealed, actionHealed, mindHealed);
+
+		awardXp(creature, "medical", (healthHealed + actionHealed));
 
 		creature->inflictDamage(creature, CreatureAttribute::MIND, mindCostNew, false);
 
