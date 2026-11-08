@@ -907,6 +907,9 @@ class SceneObject extends TreeEntry implements Logger, Metrics {
 	public native int getContainedObjectsRecursive();
 
 	@dirty
+	public native boolean isPlayerInventoryOrBank();
+
+	@dirty
 	public abstract native int getCountableObjectsRecursive();
 
 	@dirty

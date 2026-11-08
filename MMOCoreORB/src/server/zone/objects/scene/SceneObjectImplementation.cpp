@@ -1957,27 +1957,36 @@ bool SceneObjectImplementation::setTransformForCollisionMatrixIfNull(Matrix4* ma
 	return transformForCollisionMatrix.compareAndSet(nullptr, mat);
 }
 
+bool SceneObjectImplementation::isPlayerInventoryOrBank() {
+	if (templateObject == nullptr)
+		return false;
+
+	if (!templateObject->hasArrangementDescriptor("inventory") && !templateObject->hasArrangementDescriptor("bank"))
+		return false;
+
+	ManagedReference<SceneObject*> parentObject = getParent().get();
+
+	return parentObject != nullptr && parentObject->isPlayerCreature();
+}
+
 int SceneObjectImplementation::getCountableObjectsRecursive() {
 	int count = 0;
-
-	// info(true) << getDisplayedName() << "---------- START check ----------";
-
-	// info(true) << getDisplayedName() << " -- Container Size: " << containerObjects.size();
+	bool nestedContainerCountsAsOne = isPlayerInventoryOrBank();
 
 	for (int i = 0; i < containerObjects.size(); ++i) {
 		ManagedReference<SceneObject*> obj = containerObjects.get(i);
 
-		if (obj != nullptr) {
-			++count;
+		if (obj == nullptr)
+			continue;
 
-			if (!obj->isCraftingTool())
-				count += obj->getCountableObjectsRecursive();
+		++count;
 
-			// info(true) << "After Object: " << obj->getDisplayedName() << " -- New Total Count: " << count;
-		}
+		// Crafting tools, and containers stored in a player inventory or bank, take one slot.
+		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject()))
+			continue;
+
+		count += obj->getCountableObjectsRecursive();
 	}
-
-	// info(true) << getDisplayedName() << "---------- END check ----------";
 
 	return count;
 }

@@ -129,13 +129,12 @@ int ContainerImplementation::canAddObject(SceneObject* object, int containmentTy
 			}
 		}
 
-		// Find out how much room we need
-		int objectSize;
+		// A container placed in a player inventory or bank takes one slot there.
+		// Its contents stay limited by the container itself.
+		int objectSize = 1;
 
-		if (object->isContainerObject())
+		if (object->isContainerObject() && !isPlayerInventoryOrBank())
 			objectSize = object->getContainerObjectsSize() + 1;
-		else
-			objectSize = 1;
 
 		// Return if there's not enough room in the container
 		if (getContainerVolumeLimit() < getCountableObjectsRecursive() + objectSize) {
@@ -155,87 +154,24 @@ int ContainerImplementation::canAddObject(SceneObject* object, int containmentTy
 				return TransferErrorCode::CONTAINERFULL;
 			}
 
-			// It has room. Check if it's not equipped and on a player.
+			// Filling a pack that is already stored does not take another inventory or bank slot.
+			// A pack stored in the bank can still only be filled at a bank.
 			ManagedReference<WearableContainerObject*> wearable = cast<WearableContainerObject*>(wearableParent.get());
 
-			if (!wearable->isEquipped() && playerParent != nullptr) {
-				SceneObject* inventory = playerParent->getSlottedObject("inventory");
+			if (wearable != nullptr && !wearable->isEquipped() && playerParent != nullptr) {
 				SceneObject* bank = playerParent->getSlottedObject("bank");
-				SceneObject* parentOfWearableParent = wearable->getParent().get();
 
-				// Return if it's in a player inventory which doesn't have room
-				if (parentOfWearableParent == inventory) {
-					if (inventory->getContainerVolumeLimit() < inventory->getCountableObjectsRecursive() + objectSize) {
-						errorDescription = "@error_message:inv_full"; // Your inventory is full.
-
-						return TransferErrorCode::CONTAINERFULL;
-					}
-					// Return if it's in a player bank that doesn't have room
-				} else if (parentOfWearableParent == bank) {
-					if (bank->getContainerVolumeLimit() < bank->getCountableObjectsRecursive() + objectSize) {
-						errorDescription = "@container_error_message:container03"; // This container is full.
-
-						return TransferErrorCode::CONTAINERFULL;
-					}
-
-					if (!playerParent->isNearBank())
-						return TransferErrorCode::NOTNEARBANK;
-				}
+				if (wearable->getParent().get() == bank && !playerParent->isNearBank())
+					return TransferErrorCode::NOTNEARBANK;
 			}
-		} else {
-			// There's no parent that's a wearable container. Check if this is
-			if (gameObjectType == SceneObjectType::WEARABLECONTAINER) {
-				WearableContainerObject* pack = cast<WearableContainerObject*>(_this.getReferenceUnsafeStaticCast());
+		} else if (gameObjectType == SceneObjectType::WEARABLECONTAINER) {
+			WearableContainerObject* pack = cast<WearableContainerObject*>(_this.getReferenceUnsafeStaticCast());
 
-				if (pack != nullptr && !pack->isEquipped()) {
-					// This is a wearable container, and it's not equipped.
-					if (playerParent != nullptr) {
-						SceneObject* inventory = playerParent->getSlottedObject("inventory");
-						SceneObject* bank = playerParent->getSlottedObject("bank");
-						SceneObject* thisParent = getParent().get();
+			if (pack != nullptr && !pack->isEquipped() && playerParent != nullptr) {
+				SceneObject* bank = playerParent->getSlottedObject("bank");
 
-						// Return if the container is in a player inventory without room
-						if (thisParent == inventory) {
-							if (inventory->getContainerVolumeLimit() < inventory->getCountableObjectsRecursive() + objectSize) {
-								errorDescription = "@error_message:inv_full"; // Your inventory is full.
-
-								return TransferErrorCode::CONTAINERFULL;
-							}
-						// Return if it's in a player bank that doesn't have room
-						} else if (thisParent == bank) {
-							if (bank->getContainerVolumeLimit() < bank->getCountableObjectsRecursive() + objectSize) {
-								errorDescription = "@container_error_message:container03"; // This container is full.
-
-								return TransferErrorCode::CONTAINERFULL;
-							}
-
-							if (!playerParent->isNearBank())
-								return TransferErrorCode::NOTNEARBANK;
-						}
-					}
-				}
-			} else {
-				// This is a non-wearable container.
-				if (playerParent != nullptr) {
-					SceneObject* inventory = playerParent->getSlottedObject("inventory");
-					SceneObject* bank = playerParent->getSlottedObject("bank");
-					SceneObject* thisParent = getParent().get();
-
-					// Return if the container is in a player inventory without room
-					if (thisParent == inventory) {
-						if (inventory->getContainerVolumeLimit() < inventory->getCountableObjectsRecursive() + objectSize) {
-							errorDescription = "@error_message:inv_full"; // Your inventory is full.
-
-							return TransferErrorCode::CONTAINERFULL;
-						}
-						// Return if it's in a player bank that doesn't have room
-					} else if (thisParent == bank) {
-						if (bank->getContainerVolumeLimit() < bank->getCountableObjectsRecursive() + objectSize) {
-							errorDescription = "@container_error_message:container03"; // This container is full.
-							return TransferErrorCode::CONTAINERFULL;
-						}
-					}
-				}
+				if (getParent().get() == bank && !playerParent->isNearBank())
+					return TransferErrorCode::NOTNEARBANK;
 			}
 		}
 
