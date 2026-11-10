@@ -49,7 +49,7 @@ BurstShot2Command = {
 	healthCostMultiplier = 2.0,
 	actionCostMultiplier = 1.25,
 	mindCostMultiplier = 0.5,
-        accuracyBonus = 25,
+        accuracyBonus = 35,
 	coneAngle = 30,
 	coneAction = true,
 
