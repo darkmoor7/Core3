@@ -1981,8 +1981,9 @@ int SceneObjectImplementation::getCountableObjectsRecursive() {
 
 		++count;
 
-		// Crafting tools, and containers stored in a player inventory or bank, take one slot.
-		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject()))
+		// Crafting tools take one slot. A container in a player inventory or bank also takes
+		// one slot, except an unequipped backpack, whose contents are still carried there.
+		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject() && !obj->isWearableContainerObject()))
 			continue;
 
 		count += obj->getCountableObjectsRecursive();
