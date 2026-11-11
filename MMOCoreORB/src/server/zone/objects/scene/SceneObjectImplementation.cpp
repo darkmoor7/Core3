@@ -1961,7 +1961,11 @@ bool SceneObjectImplementation::isPlayerInventoryOrBank() {
 	if (templateObject == nullptr)
 		return false;
 
-	if (!templateObject->hasArrangementDescriptor("inventory") && !templateObject->hasArrangementDescriptor("bank"))
+	const String& fullTemplate = templateObject->getFullTemplateString();
+	bool playerStorageTemplate = fullTemplate == "object/tangible/inventory/character_inventory.iff" || fullTemplate == "object/tangible/bank/character_bank.iff";
+	bool playerStorageArrangement = templateObject->hasArrangementDescriptor("inventory") || templateObject->hasArrangementDescriptor("bank");
+
+	if (!playerStorageTemplate && !playerStorageArrangement)
 		return false;
 
 	ManagedReference<SceneObject*> parentObject = getParent().get();
@@ -1981,9 +1985,9 @@ int SceneObjectImplementation::getCountableObjectsRecursive() {
 
 		++count;
 
-		// Crafting tools take one slot. A container in a player inventory or bank also takes
-		// one slot, except an unequipped backpack, whose contents are still carried there.
-		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject() && !obj->isWearableContainerObject()))
+		// Crafting tools and nested containers each take one slot in a player inventory or bank.
+		// Items inside a backpack, crate, or other container do not add to that total.
+		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject()))
 			continue;
 
 		count += obj->getCountableObjectsRecursive();

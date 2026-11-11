@@ -1400,10 +1400,8 @@ int AuctionManagerImplementation::checkRetrieve(CreatureObject* player, uint64 o
 		if (datapad->getCountableObjectsRecursive() + size > datapad->getContainerVolumeLimit())
 			return RetrieveAuctionItemResponseMessage::FULLINVENTORY;
 	} else {
-		// A container occupies one inventory slot. An unequipped backpack still needs room for its contents.
-		if (saleItem->isWearableContainerObject())
-			size = saleItem->getCountableObjectsRecursive() + 1;
-		else if (saleItem->isContainerObject())
+		// A container occupies one inventory slot no matter how many items are inside it.
+		if (saleItem->isContainerObject())
 			size = 1;
 
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
