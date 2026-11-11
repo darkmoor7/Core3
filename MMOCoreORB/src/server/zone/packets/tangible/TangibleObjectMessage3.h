@@ -38,7 +38,7 @@ public:
 			insertUnicode(tano->getCustomObjectName());
 		}
 
-		insertInt(tano->getVolume());
+		insertInt(tano->getContainerVolumeContribution());
 
 		String app;
 		tano->getCustomizationString(app);

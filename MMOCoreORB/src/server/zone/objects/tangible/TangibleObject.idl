@@ -44,6 +44,7 @@ class TangibleObject extends SceneObject {
 
 	protected boolean invisible;
 	protected transient boolean inNoCombatArea;
+	protected transient int lastSentInventoryVolume;
 
 	@dereferenced
 	protected VectorMap<string, string> luaStringData;
@@ -561,6 +562,23 @@ class TangibleObject extends SceneObject {
 	public int getVolume() {
 		return volume;
 	}
+
+	/**
+	 * Volume the client adds to a parent container.
+	 * Items inside a container that is stored in a player inventory or bank contribute nothing,
+	 * so the backpack itself is the only slot those items take.
+	 */
+	@dirty
+	public native int getContainerVolumeContribution();
+
+	@dirty
+	public native void rememberInventoryVolume();
+
+	@dirty
+	public native void updateInventoryVolume(boolean beforeContainmentUpdate);
+
+	@dirty
+	public native void markInventoryVolumeSent();
 
 	public void setComplexity(float value) {
 		complexity = value;

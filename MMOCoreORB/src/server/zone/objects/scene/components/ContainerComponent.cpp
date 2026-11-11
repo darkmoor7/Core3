@@ -5,11 +5,21 @@
 
 #include "ContainerComponent.h"
 #include "server/zone/objects/scene/SceneObject.h"
+#include "server/zone/objects/tangible/TangibleObject.h"
 #include "server/zone/objects/building/BuildingObject.h"
 #include "server/zone/Zone.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/player/sessions/SlicingSession.h"
+
+namespace {
+TangibleObject* asInventoryTangible(SceneObject* object) {
+	if (object == nullptr || !object->isTangibleObject())
+		return nullptr;
+
+	return object->asTangibleObject();
+}
+}
 
 int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
 	if (sceneObject == object) {
@@ -230,6 +240,13 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 
 	ManagedReference<SceneObject*> objParent = object->getParent().get();
 
+	// Record the volume the client already has before the parent changes.
+	// Items inside a stored backpack then report volume 0, so the inventory bar does not grow.
+	if (notifyClient) {
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->rememberInventoryVolume();
+	}
+
 	ManagedReference<Zone*> objZone = object->getLocalZone();
 	ManagedReference<Zone*> oldRootZone = object->getZone();
 
@@ -353,8 +370,19 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 
 	if ((containmentType >= 4) && (objZone == nullptr)) {
 		sceneObject->broadcastObject(object, true);
+
+		if (notifyClient) {
+			if (TangibleObject* tangible = asInventoryTangible(object))
+				tangible->markInventoryVolumeSent();
+		}
 	} else if (notifyClient) {
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->updateInventoryVolume(true);
+
 		sceneObject->broadcastMessage(object->link(sceneObject->getObjectID(), containmentType), true);
+
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->updateInventoryVolume(false);
 	}
 
 	notifyObjectInserted(sceneObject, object);
@@ -393,6 +421,11 @@ bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* obj
 	VectorMap<uint64, ManagedReference<SceneObject*> >* containerObjects = sceneObject->getContainerObjects();
 
 	ManagedReference<SceneObject*> objectKeeper = object;
+
+	if (notifyClient) {
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->rememberInventoryVolume();
+	}
 
 	if (object->getParent() != nullptr && object->getParent() != sceneObject) {
 		ManagedReference<SceneObject*> objParent = object->getParent();
@@ -447,7 +480,13 @@ bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* obj
 	contLocker.release();
 
 	if (notifyClient) {
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->updateInventoryVolume(true);
+
 		sceneObject->broadcastMessage(object->link((uint64) 0, 0xFFFFFFFF), true);
+
+		if (TangibleObject* tangible = asInventoryTangible(object))
+			tangible->updateInventoryVolume(false);
 	}
 
 	notifyObjectRemoved(sceneObject, object, destination);

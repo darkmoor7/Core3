@@ -43,6 +43,7 @@ void TangibleObjectImplementation::initializeTransientMembers() {
 
 	threatMap = nullptr;
 	inNoCombatArea = false;
+	lastSentInventoryVolume = -1;
 
 	setLoggingName("TangibleObject");
 
@@ -893,6 +894,75 @@ void TangibleObjectImplementation::fillAttributeList(AttributeListMessage* alm, 
 		else {
 			alm->insertAttribute( "lock_mechanism", "@obj_attr_n:broken" );
 		}
+	}
+}
+
+int TangibleObjectImplementation::getContainerVolumeContribution() {
+	if (isNestedInsidePlayerStorageContainer())
+		return 0;
+
+	return volume;
+}
+
+void TangibleObjectImplementation::rememberInventoryVolume() {
+	if (lastSentInventoryVolume < 0)
+		lastSentInventoryVolume = getContainerVolumeContribution();
+
+	for (int i = 0; i < containerObjects.size(); ++i) {
+		ManagedReference<SceneObject*> child = containerObjects.get(i);
+
+		if (child == nullptr)
+			continue;
+
+		TangibleObject* tangible = child->asTangibleObject();
+
+		if (tangible != nullptr)
+			tangible->rememberInventoryVolume();
+	}
+}
+
+void TangibleObjectImplementation::updateInventoryVolume(bool beforeContainmentUpdate) {
+	int desired = getContainerVolumeContribution();
+
+	if (lastSentInventoryVolume >= 0 && desired != lastSentInventoryVolume) {
+		bool decreasing = desired < lastSentInventoryVolume;
+
+		if (decreasing == beforeContainmentUpdate) {
+			TangibleObjectDeltaMessage3* delta = new TangibleObjectDeltaMessage3(asTangibleObject());
+			delta->updateVolume(desired);
+			delta->close();
+
+			broadcastMessage(delta, true);
+			lastSentInventoryVolume = desired;
+		}
+	}
+
+	for (int i = 0; i < containerObjects.size(); ++i) {
+		ManagedReference<SceneObject*> child = containerObjects.get(i);
+
+		if (child == nullptr)
+			continue;
+
+		TangibleObject* tangible = child->asTangibleObject();
+
+		if (tangible != nullptr)
+			tangible->updateInventoryVolume(beforeContainmentUpdate);
+	}
+}
+
+void TangibleObjectImplementation::markInventoryVolumeSent() {
+	lastSentInventoryVolume = getContainerVolumeContribution();
+
+	for (int i = 0; i < containerObjects.size(); ++i) {
+		ManagedReference<SceneObject*> child = containerObjects.get(i);
+
+		if (child == nullptr)
+			continue;
+
+		TangibleObject* tangible = child->asTangibleObject();
+
+		if (tangible != nullptr)
+			tangible->markInventoryVolumeSent();
 	}
 }
 
