@@ -115,12 +115,12 @@ object_weapon_ranged_pistol_pistol_power5 = object_weapon_ranged_pistol_shared_p
 	maxRange = 64,
 	maxRangeAccuracy = -70,
 
-	minDamage = 25,
-	maxDamage = 125,
+	minDamage = 55,
+	maxDamage = 155,
 
-	attackSpeed = 3.6,
+	attackSpeed = 3,
 
-	woundsRatio = 10,
+	woundsRatio = 15,
 
 	numberExperimentalProperties = {1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2},
 	experimentalProperties = {"XX", "XX", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "XX", "XX", "XX", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ"},

@@ -115,8 +115,8 @@ object_weapon_ranged_pistol_pistol_cdef_corsec = object_weapon_ranged_pistol_sha
 	maxRange = 45,
 	maxRangeAccuracy = 5,
 
-	minDamage = 17,
-	maxDamage = 35,
+	minDamage = 27,
+	maxDamage = 45,
 
 	attackSpeed = 4.6,
 

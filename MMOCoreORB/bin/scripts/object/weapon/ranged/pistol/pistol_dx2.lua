@@ -115,12 +115,12 @@ object_weapon_ranged_pistol_pistol_dx2 = object_weapon_ranged_pistol_shared_pist
 	maxRange = 64,
 	maxRangeAccuracy = -90,
 
-	minDamage = 60,
-	maxDamage = 90,
+	minDamage = 80,
+	maxDamage = 120,
 
-	attackSpeed = 3.5,
+	attackSpeed = 3,
 
-	woundsRatio = 12,
+	woundsRatio = 22,
 
 	numberExperimentalProperties = {1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2},
 	experimentalProperties = {"XX", "XX", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "CD", "OQ", "XX", "XX", "XX", "CD", "OQ", "CD", "OQ", "CD", "OQ"},

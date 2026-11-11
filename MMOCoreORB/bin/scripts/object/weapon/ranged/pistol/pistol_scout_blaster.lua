@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_scout_blaster = object_weapon_ranged_pistol_s
 	maxRange = 64,
 	maxRangeAccuracy = -90,
 
-	minDamage = 35,
-	maxDamage = 80,
+	minDamage = 45,
+	maxDamage = 100,
 
-	attackSpeed = 3.1,
+	attackSpeed = 3,
 
 	woundsRatio = 7,
 

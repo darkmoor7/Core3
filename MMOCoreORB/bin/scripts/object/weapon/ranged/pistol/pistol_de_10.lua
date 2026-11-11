@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_de_10 = object_weapon_ranged_pistol_shared_pi
 	maxRange = 64,
 	maxRangeAccuracy = -80,
 
-	minDamage = 18,
-	maxDamage = 88,
+	minDamage = 38,
+	maxDamage = 98,
 
-	attackSpeed = 4,
+	attackSpeed = 3,
 
 	woundsRatio = 15,
 

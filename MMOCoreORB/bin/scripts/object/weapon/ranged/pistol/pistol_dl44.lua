@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_dl44 = object_weapon_ranged_pistol_shared_pis
 	maxRange = 64,
 	maxRangeAccuracy = -80,
 
-	minDamage = 20,
-	maxDamage = 90,
+	minDamage = 40,
+	maxDamage = 120,
 
-	attackSpeed = 3.4,
+	attackSpeed = 3,
 
 	woundsRatio = 7,
 

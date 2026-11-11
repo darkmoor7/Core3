@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_dh17 = object_weapon_ranged_pistol_shared_pis
 	maxRange = 64,
 	maxRangeAccuracy = -60,
 
-	minDamage = 50,
-	maxDamage = 75,
+	minDamage = 70,
+	maxDamage = 85,
 
-	attackSpeed = 3.2,
+	attackSpeed = 3,
 
 	woundsRatio = 10,
 

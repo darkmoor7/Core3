@@ -116,7 +116,7 @@ object_weapon_ranged_pistol_pistol_scatter = object_weapon_ranged_pistol_shared_
 	maxRangeAccuracy = -95,
 
 	minDamage = 104,
-	maxDamage = 125,
+	maxDamage = 155,
 
 	attackSpeed = 3,
 

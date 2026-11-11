@@ -70,7 +70,7 @@ object_weapon_ranged_pistol_pistol_dl44_metal = object_weapon_ranged_pistol_shar
 	attackType = RANGEDATTACK,
 
 	-- ENERGY, KINETIC, ELECTRICITY, STUN, BLAST, HEAT, COLD, ACID, LIGHTSABER
-	damageType = ENERGY,
+	damageType = COLD,
 
 	-- NONE, LIGHT, MEDIUM, HEAVY
 	armorPiercing = NONE,
@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_dl44_metal = object_weapon_ranged_pistol_shar
 	maxRange = 64,
 	maxRangeAccuracy = -80,
 
-	minDamage = 20,
-	maxDamage = 100,
+	minDamage = 50,
+	maxDamage = 130,
 
-	attackSpeed = 3.4,
+	attackSpeed = 3,
 
 	woundsRatio = 7,
 
