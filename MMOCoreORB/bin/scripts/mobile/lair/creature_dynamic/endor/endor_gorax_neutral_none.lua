@@ -1,6 +1,6 @@
 endor_gorax_neutral_none = Lair:new {
 	mobiles = {{"gorax",1},{"minor_gorax",2}},
-	spawnLimit = 3,
+	spawnLimit = 6,
 	buildingsVeryEasy = {},
 	buildingsEasy = {},
 	buildingsMedium = {},
