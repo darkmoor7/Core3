@@ -154,14 +154,14 @@ int ContainerImplementation::canAddObject(SceneObject* object, int containmentTy
 				return TransferErrorCode::CONTAINERFULL;
 			}
 
-			// Filling a pack that is already stored does not take another inventory or bank slot.
+			// Items placed in a pack already in inventory or bank do not take another slot there.
 			// A pack stored in the bank can still only be filled at a bank.
 			ManagedReference<WearableContainerObject*> wearable = cast<WearableContainerObject*>(wearableParent.get());
 
 			if (wearable != nullptr && !wearable->isEquipped() && playerParent != nullptr) {
 				SceneObject* bank = playerParent->getSlottedObject("bank");
 
-				if (wearable->getParent().get() == bank && !playerParent->isNearBank())
+				if (bank != nullptr && wearable->getParent().get() == bank && !playerParent->isNearBank())
 					return TransferErrorCode::NOTNEARBANK;
 			}
 		} else if (gameObjectType == SceneObjectType::WEARABLECONTAINER) {
@@ -170,7 +170,7 @@ int ContainerImplementation::canAddObject(SceneObject* object, int containmentTy
 			if (pack != nullptr && !pack->isEquipped() && playerParent != nullptr) {
 				SceneObject* bank = playerParent->getSlottedObject("bank");
 
-				if (getParent().get() == bank && !playerParent->isNearBank())
+				if (bank != nullptr && getParent().get() == bank && !playerParent->isNearBank())
 					return TransferErrorCode::NOTNEARBANK;
 			}
 		}
