@@ -115,8 +115,8 @@ object_weapon_ranged_pistol_pistol_srcombat = object_weapon_ranged_pistol_shared
 	maxRange = 48,
 	maxRangeAccuracy = -80,
 
-	minDamage = 65,
-	maxDamage = 120,
+	minDamage = 95,
+	maxDamage = 190,
 
 	attackSpeed = 3,
 

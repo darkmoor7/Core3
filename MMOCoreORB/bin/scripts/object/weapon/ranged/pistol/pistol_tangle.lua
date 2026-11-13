@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_tangle = object_weapon_ranged_pistol_shared_p
 	maxRange = 48,
 	maxRangeAccuracy = -80,
 
-	minDamage = 65,
-	maxDamage = 85,
+	minDamage = 105,
+	maxDamage = 205,
 
-	attackSpeed = 3.7,
+	attackSpeed = 3,
 
 	woundsRatio = 3,
 

@@ -115,8 +115,8 @@ object_weapon_ranged_pistol_pistol_dx2 = object_weapon_ranged_pistol_shared_pist
 	maxRange = 64,
 	maxRangeAccuracy = -90,
 
-	minDamage = 80,
-	maxDamage = 120,
+	minDamage = 100,
+	maxDamage = 220,
 
 	attackSpeed = 3,
 

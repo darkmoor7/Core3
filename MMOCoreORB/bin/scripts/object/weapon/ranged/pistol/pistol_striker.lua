@@ -115,10 +115,10 @@ object_weapon_ranged_pistol_pistol_striker = object_weapon_ranged_pistol_shared_
 	maxRange = 64,
 	maxRangeAccuracy = -70,
 
-	minDamage = 35,
-	maxDamage = 60,
+	minDamage = 135,
+	maxDamage = 160,
 
-	attackSpeed = 3.4,
+	attackSpeed = 3,
 
 	woundsRatio = 10,
 
