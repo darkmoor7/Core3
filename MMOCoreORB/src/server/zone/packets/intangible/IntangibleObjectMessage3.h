@@ -24,7 +24,7 @@ public:
 		int volume = 0;
 
 		if (itno->isTangibleObject()) {
-			volume = itno->asTangibleObject()->getVolume();
+			volume = itno->asTangibleObject()->getContainerVolumeContribution();
 		} else {
 			volume = itno->getDataSize();
 		}

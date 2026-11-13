@@ -18,7 +18,7 @@ public:
 		insertStringId(crate->getObjectName());
 		insertCustomName(crate->getCustomObjectName());
 
-		insertInt(crate->getVolume());
+		insertInt(crate->getContainerVolumeContribution());
 
 		String app;
 		crate->getCustomizationString(app);

@@ -1958,19 +1958,67 @@ bool SceneObjectImplementation::setTransformForCollisionMatrixIfNull(Matrix4* ma
 }
 
 bool SceneObjectImplementation::isPlayerInventoryOrBank() {
-	if (templateObject == nullptr)
+	ManagedReference<SceneObject*> parentObject = getParent().get();
+
+	if (parentObject != nullptr && parentObject->isCreatureObject()) {
+		SceneObject* self = asSceneObject();
+		SceneObject* inventory = parentObject->getSlottedObject("inventory");
+
+		if (inventory == self)
+			return parentObject->isPlayerCreature();
+
+		SceneObject* bank = parentObject->getSlottedObject("bank");
+
+		if (bank == self)
+			return parentObject->isPlayerCreature();
+	}
+
+	if (templateObject == nullptr || parentObject == nullptr || !parentObject->isPlayerCreature())
 		return false;
 
 	const String& fullTemplate = templateObject->getFullTemplateString();
-	bool playerStorageTemplate = fullTemplate == "object/tangible/inventory/character_inventory.iff" || fullTemplate == "object/tangible/bank/character_bank.iff";
-	bool playerStorageArrangement = templateObject->hasArrangementDescriptor("inventory") || templateObject->hasArrangementDescriptor("bank");
 
-	if (!playerStorageTemplate && !playerStorageArrangement)
-		return false;
+	if (fullTemplate == "object/tangible/inventory/character_inventory.iff" || fullTemplate == "object/tangible/bank/character_bank.iff")
+		return true;
 
+	return templateObject->hasArrangementDescriptor("inventory") || templateObject->hasArrangementDescriptor("bank");
+}
+
+namespace {
+bool countsAsOnePlayerStorageSlot(SceneObject* obj) {
+	if (obj->isCraftingTool() || obj->isContainerObject() || obj->isWearableContainerObject())
+		return true;
+
+	uint32 type = obj->getGameObjectType();
+
+	if (type == SceneObjectType::CONTAINER || type == SceneObjectType::WEARABLECONTAINER || type == SceneObjectType::STATICLOOTCONTAINER)
+		return true;
+
+	return obj->getContainerType() == ContainerType::VOLUME && obj->getContainerVolumeLimit() > 0;
+}
+}
+
+bool SceneObjectImplementation::isNestedInsidePlayerStorageContainer() {
 	ManagedReference<SceneObject*> parentObject = getParent().get();
 
-	return parentObject != nullptr && parentObject->isPlayerCreature();
+	// A container sitting directly in inventory or bank keeps its own volume.
+	// Only the items inside it are hidden from the parent total.
+	if (parentObject == nullptr || parentObject->isPlayerInventoryOrBank())
+		return false;
+
+	ManagedReference<SceneObject*> current = parentObject;
+
+	for (int depth = 0; current != nullptr && depth < 8; ++depth) {
+		if (current->isPlayerInventoryOrBank())
+			return true;
+
+		if (current->isPlayerCreature() || current->isCellObject() || current->isBuildingObject())
+			return false;
+
+		current = current->getParent().get();
+	}
+
+	return false;
 }
 
 int SceneObjectImplementation::getCountableObjectsRecursive() {
@@ -1985,9 +2033,10 @@ int SceneObjectImplementation::getCountableObjectsRecursive() {
 
 		++count;
 
-		// Crafting tools and nested containers each take one slot in a player inventory or bank.
-		// Items inside a backpack, crate, or other container do not add to that total.
-		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && obj->isContainerObject()))
+		// Crafting tools always count as one slot. In a player inventory or bank,
+		// a backpack, crate, or other container also counts as one slot.
+		// Items inside that container do not add to the inventory total.
+		if (obj->isCraftingTool() || (nestedContainerCountsAsOne && countsAsOnePlayerStorageSlot(obj)))
 			continue;
 
 		count += obj->getCountableObjectsRecursive();
