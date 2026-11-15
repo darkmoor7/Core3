@@ -3,7 +3,6 @@
 		See file COPYING for copying conditions. */
 
 #include "server/zone/objects/scene/SceneObject.h"
-#include "server/zone/objects/tangible/TangibleObject.h"
 
 #include "server/zone/packets/scene/SceneObjectCreateMessage.h"
 #include "server/zone/packets/scene/SceneObjectDestroyMessage.h"
@@ -361,20 +360,6 @@ void SceneObjectImplementation::sendWithoutParentTo(SceneObject* player) {
 	SceneObjectImplementation::close(player);
 }
 
-namespace {
-TangibleObject* nestedPlayerStorageItem(SceneObjectImplementation* self) {
-	if (self == nullptr || !self->isTangibleObject())
-		return nullptr;
-
-	TangibleObject* tangible = self->asSceneObject()->asTangibleObject();
-
-	if (tangible == nullptr || !tangible->isNestedInsidePlayerStorageContainer())
-		return nullptr;
-
-	return tangible;
-}
-}
-
 void SceneObjectImplementation::sendTo(SceneObject* player, bool doClose, bool forceLoadContainer) {
 	if ((isClientObject() && !forceSend) || !sendToClient || player == nullptr || player->getClient() == nullptr)
 		return;
@@ -391,13 +376,6 @@ void SceneObjectImplementation::sendTo(SceneObject* player, bool doClose, bool f
 	BaseMessage* msg = new SceneObjectCreateMessage(asSceneObject());
 	player->sendMessage(msg);
 
-	// The client adds an item's volume when the containment message arrives.
-	// Nested items have to already be volume 0, or the inventory total keeps the default 1.
-	TangibleObject* nestedItem = nestedPlayerStorageItem(this);
-
-	if (nestedItem != nullptr)
-		sendBaselinesTo(player);
-
 	link(player, containmentType);
 
 	try {
@@ -411,9 +389,6 @@ void SceneObjectImplementation::sendTo(SceneObject* player, bool doClose, bool f
 		e.printStackTrace();
 	}
 
-	if (nestedItem != nullptr)
-		nestedItem->markInventoryVolumeSent();
-
 	if (doClose) {
 		SceneObjectImplementation::close(player);
 	}
@@ -426,18 +401,10 @@ void SceneObjectImplementation::sendWithoutContainerObjectsTo(SceneObject* playe
 	BaseMessage* msg = new SceneObjectCreateMessage(asSceneObject());
 	player->sendMessage(msg);
 
-	TangibleObject* nestedItem = nestedPlayerStorageItem(this);
-
-	if (nestedItem != nullptr)
-		sendBaselinesTo(player);
-
 	if (parent.get() != nullptr)
 		link(player, containmentType);
 
 	sendBaselinesTo(player);
-
-	if (nestedItem != nullptr)
-		nestedItem->markInventoryVolumeSent();
 
 	SceneObjectImplementation::close(player);
 }
@@ -1991,28 +1958,19 @@ bool SceneObjectImplementation::setTransformForCollisionMatrixIfNull(Matrix4* ma
 }
 
 bool SceneObjectImplementation::isPlayerInventoryOrBank() {
-	static const uint32 inventoryCrc = String("object/tangible/inventory/character_inventory.iff").hashCode();
-	static const uint32 bankCrc = String("object/tangible/bank/character_bank.iff").hashCode();
-
 	ManagedReference<SceneObject*> parentObject = getParent().get();
-	uint32 crc = getServerObjectCRC();
 
-	// Stock character inventory and bank are identified by the template CRC that
-	// was stored when the object was created. Creature loot bags use a different template.
-	if ((crc == inventoryCrc || crc == bankCrc) && parentObject != nullptr && parentObject->isCreatureObject())
-		return true;
+	if (parentObject != nullptr && parentObject->isCreatureObject()) {
+		SceneObject* self = asSceneObject();
+		SceneObject* inventory = parentObject->getSlottedObject("inventory");
 
-	if (parentObject != nullptr && parentObject->isPlayerCreature() && getContainmentType() >= 4) {
-		uint64 selfId = getObjectID();
-		ManagedReference<SceneObject*> inventory = parentObject->getSlottedObject("inventory");
+		if (inventory == self)
+			return parentObject->isPlayerCreature();
 
-		if (inventory != nullptr && inventory->getObjectID() == selfId)
-			return true;
+		SceneObject* bank = parentObject->getSlottedObject("bank");
 
-		ManagedReference<SceneObject*> bank = parentObject->getSlottedObject("bank");
-
-		if (bank != nullptr && bank->getObjectID() == selfId)
-			return true;
+		if (bank == self)
+			return parentObject->isPlayerCreature();
 	}
 
 	if (templateObject == nullptr || parentObject == nullptr || !parentObject->isPlayerCreature())
