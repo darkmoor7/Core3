@@ -241,7 +241,6 @@ public:
 		COLOR_GOGGLES						= 1013,
 		COLOR_ARMOR							= 1014,
 		CUSTOMIZE_KIT						= 1015, // listbox to select FRAME or TRIM
-		MOUNT_GROWTH_ARREST					= 1016,
 		HOLO_EMOTE_HELP						= 1017,
 		PROPOSE_UNITY						= 1018,
 		SELECT_UNITY_RING					= 1019,
