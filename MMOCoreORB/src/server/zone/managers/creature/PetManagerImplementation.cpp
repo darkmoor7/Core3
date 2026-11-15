@@ -6,6 +6,7 @@
 #include "server/zone/managers/player/PlayerManager.h"
 #include "templates/manager/TemplateManager.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
+#include "server/zone/objects/creature/ai/CreatureTemplate.h"
 #include "server/zone/objects/creature/ai/DroidObject.h"
 #include "server/zone/objects/creature/ai/Creature.h"
 #include "server/zone/objects/creature/events/PetIncapacitationRecoverTask.h"
@@ -118,12 +119,29 @@ short PetManagerImplementation::checkMountEligibility(PetControlDevice* petContr
 	if (objectTemplate == nullptr)
 		return PetManager::INVALIDCREATURE;
 
-	short result;
+	const String appearanceFilename = objectTemplate->getAppearanceFilename();
+	float checkHeight = height;
 
-	if (height == -1)
-		result = isValidMountScale(objectTemplate->getAppearanceFilename(), 1, pet->getHeight());
-	else
-		result = isValidMountScale(objectTemplate->getAppearanceFilename(), 1, height);
+	if (checkHeight < 0)
+		checkHeight = pet->getHeight();
+
+	short result = isValidMountScale(appearanceFilename, 1, checkHeight);
+
+	if (result != PetManager::TOOLARGE)
+		return result;
+
+	// A fully grown pet is templateScale * (0.46 + 10 * 0.06), six percent over the
+	// creature's normal size. Keep that adult size mountable when the normal size is.
+	const CreatureTemplate* creatureTemplate = pet->getCreatureTemplate();
+
+	if (creatureTemplate == nullptr)
+		return result;
+
+	float templateScale = creatureTemplate->getScale();
+	float adultScale = templateScale * (0.46f + (10.f * 0.06f));
+
+	if (checkHeight <= adultScale + 0.001f && isValidMountScale(appearanceFilename, 1, templateScale) == PetManager::CANBEMOUNTTRAINED)
+		return PetManager::CANBEMOUNTTRAINED;
 
 	return result;
 }
