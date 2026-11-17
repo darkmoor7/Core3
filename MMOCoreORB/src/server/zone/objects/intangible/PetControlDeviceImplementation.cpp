@@ -8,9 +8,7 @@
 #include "server/zone/objects/creature/ai/DroidObject.h"
 #include "server/zone/objects/creature/ai/HelperDroidObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
-#include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
-#include "server/zone/objects/player/sui/callbacks/MountGrowthArrestSuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/PetFixSuiCallback.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/Zone.h"
@@ -640,10 +638,6 @@ bool PetControlDeviceImplementation::growPet(CreatureObject* player, bool force,
 	if (creatureTemplate == nullptr)
 		return true;
 
-	PetManager* petManager = pet->getZoneServer()->getPetManager();
-	if (petManager == nullptr)
-		return true;
-
 	Time currentTime;
 	uint32 timeDelta = currentTime.getTime() - lastGrowth.getTime();
 	int stagesToGrow = timeDelta / 43200; // 12 hour
@@ -664,36 +658,7 @@ bool PetControlDeviceImplementation::growPet(CreatureObject* player, bool force,
 
 	float newHeight = creatureTemplate->getScale() * (0.46 + ((float)newStage * 0.06));
 
-	short preEligibility = petManager->checkMountEligibility(_this.getReferenceUnsafeStaticCast());
-	short postEligibility = petManager->checkMountEligibility(_this.getReferenceUnsafeStaticCast(), newHeight);
-
 	assert(pet->isLockedByCurrentThread());
-
-	if (preEligibility == PetManager::CANBEMOUNTTRAINED && postEligibility == PetManager::TOOLARGE && !force) {
-		if (isTrainedAsMount()) {
-			arrestGrowth();
-			return true;
-		}
-
-		PlayerObject* ghost = player->getPlayerObject();
-
-		if (ghost == nullptr){
-			return true;
-		}
-
-		ManagedReference<SuiListBox*> box = new SuiListBox(player, SuiWindowType::MOUNT_GROWTH_ARREST);
-		box->setPromptTitle("@pet/pet_menu:mount_growth_title"); // Pet Growth Arrest
-		box->setPromptText("@pet/pet_menu:mount_growth_prompt"); // Your pet could be trained as a mount, but is about to grow too large to serve as one. If you ever plan on training this pet as a mount you must arrest it's growth now. Stop pet's growth?
-		box->setUsingObject(_this.getReferenceUnsafeStaticCast());
-		box->setCancelButton(true, "@cancel");
-		box->setOkButton(true, "@yes");
-		box->setOtherButton(true, "@no");
-		box->setCallback(new MountGrowthArrestSuiCallback(player->getZoneServer(), _this.getReferenceUnsafeStaticCast()));
-
-		ghost->addSuiBox(box);
-		player->sendMessage(box->generateMessage());
-		return false;
-	}
 
 	if (adult)
 		pet->setHeight(newHeight, true);
@@ -708,59 +673,6 @@ bool PetControlDeviceImplementation::growPet(CreatureObject* player, bool force,
 	setVitality(getVitality());
 
 	return true;
-}
-
-void PetControlDeviceImplementation::arrestGrowth() {
-	if (petType != PetManager::CREATUREPET)
-		return;
-
-	if (growthStage <= 0 || growthStage >= 10)
-		return;
-
-	ManagedReference<TangibleObject*> controlledObject = this->controlledObject.get();
-
-	if (controlledObject == nullptr || !controlledObject->isCreature())
-		return;
-
-	ManagedReference<Creature*> pet = cast<Creature*>(controlledObject.get());
-
-	Reference<const CreatureTemplate*> creatureTemplate = pet->getCreatureTemplate();
-
-	if (creatureTemplate == nullptr)
-		return;
-
-	PetManager* petManager = pet->getZoneServer()->getPetManager();
-	if (petManager == nullptr)
-		return;
-
-	int newStage = growthStage;
-
-	for (int i = (growthStage + 1); i < 11; i++) {
-		float newHeight = creatureTemplate->getScale() * (0.46 + ((float)i * 0.06));
-
-		short mountEligibility = petManager->checkMountEligibility(_this.getReferenceUnsafeStaticCast(), newHeight);
-
-		if (mountEligibility == PetManager::TOOLARGE)
-			break;
-		else if (mountEligibility == PetManager::CANBEMOUNTTRAINED)
-			newStage = i;
-	}
-
-	if (newStage > growthStage) {
-		float newLevel = ((float)pet->getAdultLevel() / 10.0) * (float)newStage;
-		if (newLevel < 1)
-			newLevel = 1;
-
-		float newHeight = creatureTemplate->getScale() * (0.46 + ((float)newStage * 0.06));
-
-		pet->setHeight(newHeight, false);
-		pet->setPetLevel(newLevel);
-	}
-
-	setVitality(getVitality());
-
-	growthStage = 10;
-	lastGrowth.updateToCurrentTime();
 }
 
 void PetControlDeviceImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {

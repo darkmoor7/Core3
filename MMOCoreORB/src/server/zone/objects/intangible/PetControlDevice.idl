@@ -117,9 +117,6 @@ class PetControlDevice extends ControlDevice {
 	public native boolean growPet(CreatureObject player, boolean force = false, boolean adult = false);
 
 	@preLocked
-	public native void arrestGrowth();
-
-	@preLocked
 	public native void trainAsMount(CreatureObject player);
 
 	@read
